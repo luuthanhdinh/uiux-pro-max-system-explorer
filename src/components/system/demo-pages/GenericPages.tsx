@@ -811,18 +811,321 @@ function DevChangelog({ design }: { design: SystemDesign }) {
   );
 }
 
+/* ─── HEALTHCARE RECORDS ─── */
+function HealthcareRecords({ design }: { design: SystemDesign }) {
+  const labs: [string, string, string, boolean][] = [['Complete Blood Count', '2026-04-10', 'Normal', true], ['HbA1c', '2026-03-22', 'Borderline', false], ['Lipid Panel', '2026-02-14', 'Normal', true], ['Thyroid (TSH)', '2026-01-08', 'Normal', true]];
+  const history = [['2026-04-15', 'Annual Check-up', 'Dr. Patel', 'Cardiology'], ['2026-03-02', 'Follow-up Visit', 'Dr. Kim', 'Endocrinology'], ['2026-01-19', 'Blood Pressure Review', 'Dr. Patel', 'Cardiology']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <Nav design={design} brand="MediCare Portal" />
+      <div className="px-8 py-6">
+        <h2 className="text-xl font-bold mb-6" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Health Records</h2>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}50` }}>Lab Results</p>
+            <div className="rounded-xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+              <div className="grid grid-cols-4 px-4 py-2 text-[10px] font-semibold uppercase tracking-wider" style={{ background: `${design.colors.primary}08`, color: `${design.colors.text}40` }}>
+                <span>Test</span><span>Date</span><span>Status</span><span>Action</span>
+              </div>
+              {labs.map(([test, date, status, normal]) => (
+                <div key={test} className="grid grid-cols-4 items-center px-4 py-3 border-t text-xs" style={{ borderColor: design.colors.border }}>
+                  <span style={{ color: design.colors.text }}>{test}</span>
+                  <span style={{ color: `${design.colors.text}50` }}>{date}</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold w-fit" style={{ background: normal ? `${design.colors.cta}15` : `${design.colors.accent}15`, color: normal ? design.colors.cta : design.colors.accent }}>{status}</span>
+                  <button className="text-[10px] cursor-pointer font-medium" style={{ color: design.colors.primary }}>View →</button>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}50` }}>Visit History</p>
+            <div className="space-y-3">
+              {history.map(([date, visit, doctor, dept]) => (
+                <div key={date} className="flex gap-3 p-4 rounded-xl border" style={{ borderColor: design.colors.border }}>
+                  <div className="w-1 rounded-full flex-shrink-0" style={{ background: design.colors.primary }} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between">
+                      <p className="text-sm font-semibold" style={{ color: design.colors.text }}>{visit}</p>
+                      <span className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{date}</span>
+                    </div>
+                    <p className="text-xs mt-0.5" style={{ color: `${design.colors.text}50` }}>{doctor} · {dept}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── LMS PROGRESS ─── */
+function LMSProgress({ design }: { design: SystemDesign }) {
+  const courses = [['React Advanced Patterns', 94, '✅'], ['TypeScript Deep Dive', 100, '🏆'], ['GraphQL Fundamentals', 72, '📖'], ['Next.js Mastery', 45, '⏳']];
+  const badges = [['🔥', 'Hot Streak', '14 days'], ['⭐', 'Top Learner', 'Apr 2026'], ['🚀', 'Fast Finisher', '< 1 week'], ['💎', 'Diamond', 'Level 5']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <Nav design={design} brand="LearnHub" />
+      <div className="px-8 py-6">
+        <h2 className="text-xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>My Progress</h2>
+        <div className="flex items-center gap-4 mb-6">
+          <div className="flex-1 h-4 rounded-full overflow-hidden border" style={{ borderColor: design.colors.border, background: `${design.colors.border}40` }}>
+            <div className="h-full rounded-full" style={{ width: '68%', background: `linear-gradient(90deg, ${design.colors.primary}, ${design.colors.cta})` }} />
+          </div>
+          <span className="text-sm font-bold" style={{ color: design.colors.primary }}>Level 5 · 6,800 / 10,000 XP</span>
+        </div>
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          {[['14', 'Day Streak 🔥'], ['12', 'Completed'], ['3', 'Certificates']].map(([v, l]) => (
+            <div key={l} className="text-center p-4 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06` }}>
+              <p className="text-2xl font-bold" style={{ color: design.colors.primary, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{v}</p>
+              <p className="text-xs mt-1" style={{ color: `${design.colors.text}50` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}50` }}>Enrolled Courses</p>
+            <div className="space-y-3">
+              {courses.map(([title, pct, icon]) => (
+                <div key={title} className="p-3 rounded-xl border" style={{ borderColor: design.colors.border }}>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-sm font-medium" style={{ color: design.colors.text }}>{icon} {title}</span>
+                    <span className="text-xs font-semibold" style={{ color: design.colors.primary }}>{pct}%</span>
+                  </div>
+                  <div className="h-1.5 rounded-full" style={{ background: `${design.colors.border}60` }}>
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, background: design.colors.primary }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}50` }}>Badges Earned</p>
+            <div className="grid grid-cols-2 gap-2">
+              {badges.map(([icon, name, sub]) => (
+                <div key={name} className="flex items-center gap-2 p-3 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06` }}>
+                  <span className="text-2xl">{icon}</span>
+                  <div><p className="text-xs font-semibold" style={{ color: design.colors.text }}>{name}</p><p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{sub}</p></div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── LUXURY WISHLIST ─── */
+function LuxuryWishlist({ design }: { design: SystemDesign }) {
+  const items = [['Silk Evening Gown', '$2,840', 'Size 6', 'In Stock'], ['Cashmere Coat', '$4,200', 'Size S', 'Low Stock'], ['Patent Leather Heels', '$890', 'EU 38', 'In Stock'], ['Gold Chain Clutch', '$1,650', 'One Size', 'In Stock'], ['Wool Blazer', '$1,980', 'Size 4', 'Sold Out'], ['Pearl Drop Earrings', '$620', 'One Size', 'In Stock']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <Nav design={design} brand="ÉLARA" />
+      <div className="px-8 py-6">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-bold" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>My Wishlist ({items.length})</h2>
+          <button className="text-xs px-4 py-2 rounded-xl border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>Share Wishlist</button>
+        </div>
+        <div className="grid grid-cols-3 gap-5">
+          {items.map(([name, price, size, stock]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+              <div className="h-40 flex items-center justify-center text-4xl" style={{ background: `${design.colors.primary}08` }}>👗</div>
+              <div className="p-4">
+                <div className="flex items-start justify-between mb-1">
+                  <p className="text-sm font-semibold" style={{ color: design.colors.text, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{name}</p>
+                  <span className="text-[10px] ml-2 px-1.5 py-0.5 rounded" style={{ background: stock === 'Sold Out' ? `${design.colors.accent}15` : stock === 'Low Stock' ? `${design.colors.cta}15` : `${design.colors.border}40`, color: stock === 'Sold Out' ? design.colors.accent : stock === 'Low Stock' ? '#d97706' : `${design.colors.text}50` }}>{stock}</span>
+                </div>
+                <p className="text-xs mb-1" style={{ color: `${design.colors.text}50` }}>{size}</p>
+                <p className="text-sm font-bold mb-3" style={{ color: design.colors.text }}>{price}</p>
+                <div className="flex gap-2">
+                  <button className="flex-1 py-1.5 rounded-lg text-xs font-semibold cursor-pointer" style={{ background: stock === 'Sold Out' ? `${design.colors.border}40` : design.colors.cta, color: stock === 'Sold Out' ? `${design.colors.text}40` : '#fff' }} disabled={stock === 'Sold Out'}>Move to Bag</button>
+                  <button className="px-3 py-1.5 rounded-lg text-xs border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>✕</button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── GAMING STORE ─── */
+function GamingStore({ design }: { design: SystemDesign }) {
+  const featured = [['Dragon Slayer Skin', '⚔️', '1,200 G', 'Legendary', '#FF0080'], ['Neon Racer Bundle', '🏎️', '2,800 G', 'Bundle', '#FFEA00'], ['Ghost Protocol', '👻', '800 G', 'Rare', '#00FF88'], ['Void Walker Set', '🌑', '3,500 G', 'Epic', '#A855F7']];
+  const daily = [['XP Booster ×2', '🚀', '200 G', '23:45:12'], ['Random Loot Box', '📦', '150 G', '23:45:12'], ['Premium Pass Day', '⭐', '500 G', '23:45:12']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-6 py-3 border-b" style={{ borderColor: design.colors.border, background: `${design.colors.background}` }}>
+        <span className="font-bold text-sm tracking-widest uppercase" style={{ color: design.colors.primary, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>NEXUS STORE</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-bold" style={{ borderColor: design.colors.cta, color: design.colors.cta }}>💰 14,320 G</div>
+      </nav>
+      <div className="px-6 py-5">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-lg font-bold" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Featured Items</h2>
+          <span className="text-xs px-2 py-1 rounded-lg font-semibold" style={{ background: `${design.colors.primary}20`, color: design.colors.primary }}>Limited Time</span>
+        </div>
+        <div className="grid grid-cols-4 gap-3 mb-6">
+          {featured.map(([name, icon, price, rarity, color]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: color + '40', background: `${color}10` }}>
+              <div className="h-24 flex items-center justify-center text-4xl" style={{ background: `${color}20` }}>{icon}</div>
+              <div className="p-3">
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded mb-1.5 inline-block" style={{ background: `${color}30`, color: color }}>{rarity}</span>
+                <p className="text-xs font-semibold mb-2" style={{ color: design.colors.text }}>{name}</p>
+                <button className="w-full py-1.5 rounded-lg text-xs font-bold cursor-pointer" style={{ background: color, color: '#000' }}>{price}</button>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-bold" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Daily Deals</h3>
+          <span className="text-xs font-mono" style={{ color: design.colors.cta }}>Resets in 23:45:12</span>
+        </div>
+        <div className="space-y-2">
+          {daily.map(([name, icon, price, timer]) => (
+            <div key={name} className="flex items-center justify-between px-4 py-3 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">{icon}</span>
+                <div><p className="text-sm font-semibold" style={{ color: design.colors.text }}>{name}</p><p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>Resets in {timer}</p></div>
+              </div>
+              <button className="px-4 py-1.5 rounded-xl text-xs font-bold cursor-pointer" style={{ background: design.colors.cta, color: '#000' }}>{price}</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── ESG GOALS ─── */
+function ESGGoals({ design }: { design: SystemDesign }) {
+  const goals = [['Net-Zero Emissions', 2030, 38, 'Carbon'], ['100% Renewable Energy', 2028, 62, 'Energy'], ['Zero Waste to Landfill', 2027, 45, 'Waste'], ['Supply Chain Transparency', 2026, 81, 'Social']];
+  const milestones: [string, string, boolean][] = [['Q1 2026', 'Scope 3 audit complete', true], ['Q4 2025', 'Solar installations Phase 1', true], ['Q3 2025', 'Sustainability report published', true], ['Q2 2026', 'Supplier code of conduct rollout', false], ['Q4 2026', 'Carbon offset credits retired', false]];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <Nav design={design} brand="EcoMetrics" />
+      <div className="px-8 py-6">
+        <h2 className="text-xl font-bold mb-6" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Sustainability Goals</h2>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}50` }}>Target Progress</p>
+            <div className="space-y-4">
+              {goals.map(([name, year, pct, cat]) => (
+                <div key={name} className="p-4 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}04` }}>
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="text-sm font-semibold" style={{ color: design.colors.text }}>{name}</span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full font-semibold" style={{ background: `${design.colors.secondary}20`, color: design.colors.primary }}>{cat}</span>
+                  </div>
+                  <p className="text-xs mb-2" style={{ color: `${design.colors.text}40` }}>Target: {year}</p>
+                  <div className="h-2 rounded-full mb-1" style={{ background: `${design.colors.border}50` }}>
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${design.colors.primary}, ${design.colors.secondary})` }} />
+                  </div>
+                  <p className="text-right text-[10px] font-semibold" style={{ color: design.colors.primary }}>{pct}% complete</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}50` }}>Milestone Timeline</p>
+            <div className="relative pl-5 space-y-4">
+              {milestones.map(([date, title, done]) => (
+                <div key={title} className="relative">
+                  <div className="absolute -left-5 top-1 w-3 h-3 rounded-full border-2 flex items-center justify-center" style={{ borderColor: done ? design.colors.primary : design.colors.border, background: done ? design.colors.primary : design.colors.background }}>
+                    {done && <div className="w-1.5 h-1.5 rounded-full bg-white" />}
+                  </div>
+                  <p className="text-[10px] mb-0.5" style={{ color: `${design.colors.text}40` }}>{date}</p>
+                  <p className="text-sm" style={{ color: done ? design.colors.text : `${design.colors.text}50` }}>{title}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── DEV PLAYGROUND ─── */
+function DevPlayground({ design }: { design: SystemDesign }) {
+  const methods = ['GET', 'POST', 'PUT', 'DELETE'];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <Nav design={design} brand="DevAPI Docs" />
+      <div className="px-8 py-6">
+        <h2 className="text-xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>API Playground</h2>
+        <p className="text-sm mb-6" style={{ color: `${design.colors.text}50` }}>Build and test API requests directly in the browser.</p>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Method + Endpoint</p>
+              <div className="flex gap-2">
+                <div className="flex rounded-xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+                  {methods.map((m) => (
+                    <button key={m} className="px-2.5 py-2 text-xs font-bold cursor-pointer" style={{ background: m === 'POST' ? design.colors.cta : 'transparent', color: m === 'POST' ? '#fff' : `${design.colors.text}50` }}>{m}</button>
+                  ))}
+                </div>
+                <div className="flex-1 h-10 rounded-xl border px-3 flex items-center text-xs font-mono" style={{ borderColor: design.colors.border, color: design.colors.text }}>/v1/chat/completions</div>
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Headers</p>
+              <div className="rounded-xl border divide-y" style={{ borderColor: design.colors.border }}>
+                {[['Authorization', 'Bearer sk-••••••••••••••••'], ['Content-Type', 'application/json']].map(([k, v]) => (
+                  <div key={k} className="flex text-xs font-mono px-3 py-2">
+                    <span className="w-36 flex-shrink-0" style={{ color: design.colors.accent }}>{k}</span>
+                    <span style={{ color: `${design.colors.text}60` }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Request Body</p>
+              <div className="rounded-xl border p-3 text-xs font-mono leading-relaxed" style={{ borderColor: design.colors.border, background: `${design.colors.text}04` }}>
+                <div style={{ color: `${design.colors.text}70` }}>{'{'}</div>
+                <div className="ml-4"><span style={{ color: design.colors.accent }}>"model"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"nova-4"</span>,</div>
+                <div className="ml-4"><span style={{ color: design.colors.accent }}>"messages"</span><span style={{ color: `${design.colors.text}70` }}>: [{'{'}</span><span style={{ color: design.colors.accent }}>"role"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"user"</span>, <span style={{ color: design.colors.accent }}>"content"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"Hello!"</span>{'}'}{']'}</div>
+                <div style={{ color: `${design.colors.text}70` }}>{'}'}</div>
+              </div>
+            </div>
+            <button className="px-6 py-2.5 rounded-xl text-sm font-semibold cursor-pointer" style={{ background: design.colors.cta, color: '#fff' }}>Send Request →</button>
+          </div>
+          <div>
+            <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Response <span className="ml-2 px-1.5 py-0.5 rounded text-[10px]" style={{ background: '#16a34a20', color: '#16a34a' }}>200 OK · 142ms</span></p>
+            <div className="rounded-xl border p-4 text-xs font-mono leading-relaxed h-64 overflow-y-auto" style={{ borderColor: design.colors.border, background: `${design.colors.text}04` }}>
+              <div style={{ color: `${design.colors.text}70` }}>{'{'}</div>
+              <div className="ml-4"><span style={{ color: design.colors.accent }}>"id"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"chatcmpl-abc123"</span>,</div>
+              <div className="ml-4"><span style={{ color: design.colors.accent }}>"model"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"nova-4"</span>,</div>
+              <div className="ml-4"><span style={{ color: design.colors.accent }}>"choices"</span><span style={{ color: `${design.colors.text}70` }}>: [</span></div>
+              <div className="ml-8"><span style={{ color: `${design.colors.text}70` }}>{'{'}</span></div>
+              <div className="ml-12"><span style={{ color: design.colors.accent }}>"message"</span><span style={{ color: `${design.colors.text}70` }}>: {'{'}</span><span style={{ color: design.colors.accent }}>"role"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"assistant"</span>, <span style={{ color: design.colors.accent }}>"content"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"Hello! How can I help?"</span>{'}'}</div>
+              <div className="ml-12"><span style={{ color: design.colors.accent }}>"finish_reason"</span><span style={{ color: `${design.colors.text}70` }}>: </span><span style={{ color: design.colors.cta }}>"stop"</span></div>
+              <div className="ml-8"><span style={{ color: `${design.colors.text}70` }}>{'}'}</span></div>
+              <div className="ml-4"><span style={{ color: `${design.colors.text}70` }}>]</span></div>
+              <div style={{ color: `${design.colors.text}70` }}>{'}'}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function GenericPages({ design, page }: Props) {
   switch (design.id) {
     case 'healthcare':
       if (page === 'landing') return <HealthcareLanding design={design} />;
       if (page === 'dashboard') return <HealthcareDashboard design={design} />;
       if (page === 'appointment') return <HealthcareAppointment design={design} />;
+      if (page === 'records') return <HealthcareRecords design={design} />;
       return <HealthcareLanding design={design} />;
 
     case 'lms':
       if (page === 'landing') return <LMSLanding design={design} />;
       if (page === 'catalog') return <LMSCatalog design={design} />;
       if (page === 'course') return <LMSCourseDetail design={design} />;
+      if (page === 'progress') return <LMSProgress design={design} />;
       return <LMSLanding design={design} />;
 
     case 'luxury-ecommerce':
@@ -830,18 +1133,21 @@ export function GenericPages({ design, page }: Props) {
       if (page === 'listing') return <LuxuryListing design={design} />;
       if (page === 'detail') return <LuxuryDetail design={design} />;
       if (page === 'checkout') return <LuxuryCheckout design={design} />;
+      if (page === 'wishlist') return <LuxuryWishlist design={design} />;
       return <LuxuryLanding design={design} />;
 
     case 'gaming':
       if (page === 'landing') return <GamingLanding design={design} />;
       if (page === 'leaderboard') return <GamingLeaderboard design={design} />;
       if (page === 'profile') return <GamingProfile design={design} />;
+      if (page === 'store') return <GamingStore design={design} />;
       return <GamingLanding design={design} />;
 
     case 'sustainability':
       if (page === 'landing') return <ESGLanding design={design} />;
       if (page === 'dashboard') return <ESGDashboard design={design} />;
       if (page === 'report') return <ESGReport design={design} />;
+      if (page === 'goals') return <ESGGoals design={design} />;
       return <ESGLanding design={design} />;
 
     case 'developer-docs':
@@ -849,6 +1155,7 @@ export function GenericPages({ design, page }: Props) {
       if (page === 'docs') return <DevDocs design={design} />;
       if (page === 'api') return <DevAPIRef design={design} />;
       if (page === 'changelog') return <DevChangelog design={design} />;
+      if (page === 'playground') return <DevPlayground design={design} />;
       return <DevLanding design={design} />;
 
     default:

@@ -275,10 +275,82 @@ function FintechOnboarding({ design }: { design: SystemDesign }) {
   );
 }
 
+function FintechTrade({ design }: { design: Props['design'] }) {
+  const pairs: [string, string, string, boolean][] = [['BTC/USDT', '67,420.00', '+2.4%', true], ['ETH/USDT', '3,521.80', '+1.8%', true], ['SOL/USDT', '142.30', '-0.9%', false], ['ADA/USDT', '0.4812', '-1.2%', false]];
+  const asks = [['67,430', '0.2841', '19,091'], ['67,435', '0.5120', '34,527'], ['67,440', '1.0340', '69,508'], ['67,445', '0.3210', '21,598'], ['67,450', '0.8920', '60,002']];
+  const bids = [['67,415', '1.2340', '83,018'], ['67,410', '0.6780', '45,598'], ['67,405', '0.9120', '61,380'], ['67,400', '2.1100', '141,994'], ['67,395', '0.4400', '29,614']];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <FintechNav design={design} />
+      <div className="flex gap-4 p-4" style={{ fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+        {/* Pair selector */}
+        <div className="w-44 flex-shrink-0 space-y-1">
+          <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: `${design.colors.text}40` }}>Markets</p>
+          {pairs.map(([pair, price, change, up]) => (
+            <div key={pair} className="flex items-center justify-between px-2.5 py-2 rounded-lg cursor-pointer" style={{ background: pair === 'BTC/USDT' ? `${design.colors.primary}20` : `${design.colors.border}20`, border: pair === 'BTC/USDT' ? `1px solid ${design.colors.primary}40` : '1px solid transparent' }}>
+              <div>
+                <p className="text-xs font-semibold" style={{ color: design.colors.text }}>{pair}</p>
+                <p className="text-[10px]" style={{ color: `${design.colors.text}50` }}>${price}</p>
+              </div>
+              <span className="text-[10px] font-semibold" style={{ color: up ? design.colors.accent : '#EF4444' }}>{change}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Order book */}
+        <div className="flex-1">
+          <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: `${design.colors.text}40` }}>Order Book — BTC/USDT</p>
+          <div className="rounded-xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+            <div className="grid grid-cols-3 px-3 py-1.5 text-[10px] font-medium uppercase tracking-wider" style={{ background: `${design.colors.border}40`, color: `${design.colors.text}40` }}>
+              <span>Price (USDT)</span><span className="text-center">Amount (BTC)</span><span className="text-right">Total</span>
+            </div>
+            {asks.map(([p, a, t]) => (
+              <div key={p} className="grid grid-cols-3 px-3 py-1 text-xs relative" style={{ background: `#EF444408` }}>
+                <span style={{ color: '#EF4444' }}>{p}</span>
+                <span className="text-center" style={{ color: `${design.colors.text}80` }}>{a}</span>
+                <span className="text-right" style={{ color: `${design.colors.text}50` }}>{t}</span>
+              </div>
+            ))}
+            <div className="px-3 py-1.5 text-center text-sm font-bold" style={{ background: `${design.colors.border}30`, color: design.colors.cta }}>67,420.00 ↑</div>
+            {bids.map(([p, a, t]) => (
+              <div key={p} className="grid grid-cols-3 px-3 py-1 text-xs" style={{ background: `${design.colors.accent}08` }}>
+                <span style={{ color: design.colors.accent }}>{p}</span>
+                <span className="text-center" style={{ color: `${design.colors.text}80` }}>{a}</span>
+                <span className="text-right" style={{ color: `${design.colors.text}50` }}>{t}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Order entry */}
+        <div className="w-56 flex-shrink-0">
+          <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: `${design.colors.text}40` }}>Place Order</p>
+          <div className="rounded-xl border p-4 space-y-3" style={{ borderColor: design.colors.border, background: `${design.colors.border}15` }}>
+            <div className="flex rounded-lg overflow-hidden border" style={{ borderColor: design.colors.border }}>
+              {['Buy', 'Sell'].map((side) => (
+                <button key={side} className="flex-1 py-1.5 text-xs font-semibold cursor-pointer" style={{ background: side === 'Buy' ? `${design.colors.accent}` : 'transparent', color: side === 'Buy' ? '#fff' : `${design.colors.text}50` }}>{side}</button>
+              ))}
+            </div>
+            {[['Order Type', 'Limit'], ['Price (USDT)', '67,420.00'], ['Amount (BTC)', '0.0100'], ['Total (USDT)', '674.20']].map(([label, val]) => (
+              <div key={label}>
+                <p className="text-[10px] mb-1" style={{ color: `${design.colors.text}40` }}>{label}</p>
+                <div className="h-8 rounded-lg border px-2.5 flex items-center text-xs font-mono" style={{ borderColor: design.colors.border, color: design.colors.text, background: `${design.colors.background}80` }}>{val}</div>
+              </div>
+            ))}
+            <button className="w-full py-2.5 rounded-xl font-semibold text-sm cursor-pointer mt-1" style={{ background: design.colors.accent, color: '#fff' }}>Buy BTC</button>
+            <p className="text-[10px] text-center" style={{ color: `${design.colors.text}30` }}>Available: 1,240.00 USDT</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function FintechPages({ design, page }: Props) {
   if (page === 'landing') return <FintechLanding design={design} />;
   if (page === 'dashboard') return <FintechDashboard design={design} />;
   if (page === 'portfolio') return <FintechPortfolio design={design} />;
   if (page === 'onboarding') return <FintechOnboarding design={design} />;
+  if (page === 'trade') return <FintechTrade design={design} />;
   return <FintechLanding design={design} />;
 }

@@ -196,9 +196,67 @@ function Dashboard({ design }: { design: SystemDesign }) {
   );
 }
 
+function Docs({ design }: { design: SystemDesign }) {
+  const sections = ['Getting Started', 'Authentication', 'Chat API', 'Embeddings', 'Fine-tuning', 'Webhooks', 'Rate Limits', 'SDKs'];
+  const endpoints = [['POST', '/v1/chat/completions', 'Create a chat completion'], ['GET', '/v1/models', 'List available models'], ['POST', '/v1/embeddings', 'Create text embeddings'], ['DELETE', '/v1/fine-tunes/{id}', 'Cancel a fine-tune job']];
+  return (
+    <div className="min-h-full flex" style={{ background: design.colors.background, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      {/* Sidebar */}
+      <aside className="w-52 flex-shrink-0 border-r py-6 px-4" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+        <p className="text-[10px] uppercase tracking-widest mb-3 font-semibold" style={{ color: `${design.colors.text}40` }}>Documentation</p>
+        <div className="space-y-0.5">
+          {sections.map((s, i) => (
+            <div key={s} className="flex items-center gap-2 px-2.5 py-1.5 rounded-lg cursor-pointer text-xs" style={{ background: i === 0 ? `${design.colors.primary}15` : 'transparent', color: i === 0 ? design.colors.primary : `${design.colors.text}60`, fontWeight: i === 0 ? 600 : 400 }}>
+              {s}
+            </div>
+          ))}
+        </div>
+        <div className="mt-6 pt-4 border-t" style={{ borderColor: design.colors.border }}>
+          <p className="text-[10px] uppercase tracking-widest mb-2" style={{ color: `${design.colors.text}30` }}>SDKs</p>
+          {['Python', 'Node.js', 'Go', 'Ruby'].map((sdk) => (
+            <div key={sdk} className="px-2.5 py-1 text-xs cursor-pointer" style={{ color: `${design.colors.text}50` }}>{sdk}</div>
+          ))}
+        </div>
+      </aside>
+      {/* Content */}
+      <div className="flex-1 p-8 max-w-2xl">
+        <div className="flex items-center gap-2 mb-6">
+          <span className="text-[10px] px-2 py-0.5 rounded font-semibold" style={{ background: `${design.colors.cta}20`, color: design.colors.cta }}>v2.1</span>
+          <h1 className="text-2xl font-bold" style={{ color: design.colors.text, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>Getting Started</h1>
+        </div>
+        <p className="text-sm leading-relaxed mb-6" style={{ color: `${design.colors.text}60` }}>Install the NovaMind SDK and make your first API call in under 2 minutes.</p>
+        <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}80` }}>Install</p>
+        <div className="rounded-xl p-4 mb-6 text-xs font-mono" style={{ background: design.colors.text, color: design.colors.background }}>
+          <span style={{ color: design.colors.secondary }}>$</span> npm install novamind-ai
+        </div>
+        <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}80` }}>Quick Example</p>
+        <div className="rounded-xl p-4 mb-8 text-xs font-mono leading-relaxed" style={{ background: `${design.colors.text}08`, border: `1px solid ${design.colors.border}` }}>
+          <div style={{ color: design.colors.primary }}>{'import'} <span style={{ color: design.colors.text }}>{'{ NovaMind }'}</span> <span style={{ color: design.colors.primary }}>{'from'}</span> <span style={{ color: design.colors.cta }}>{`'novamind-ai'`}</span></div>
+          <div className="mt-1" style={{ color: design.colors.text }}>{'const client = new NovaMind({ apiKey: process.env.NOVA_KEY })'}</div>
+          <div className="mt-1" style={{ color: design.colors.text }}>{'const res = await client.chat.create({'}</div>
+          <div className="ml-4" style={{ color: design.colors.text }}>{'model: '}<span style={{ color: design.colors.cta }}>{`'nova-4'`}</span>,</div>
+          <div className="ml-4" style={{ color: design.colors.text }}>{'messages: [{ role: '}<span style={{ color: design.colors.cta }}>{`'user'`}</span>{', content: '}<span style={{ color: design.colors.cta }}>{`'Hello!'`}</span>{'  }]'}</div>
+          <div style={{ color: design.colors.text }}>{'});'}</div>
+        </div>
+        <p className="text-xs font-semibold mb-3" style={{ color: `${design.colors.text}80` }}>Core Endpoints</p>
+        <div className="space-y-2">
+          {endpoints.map(([method, path, desc]) => (
+            <div key={path} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: design.colors.border }}>
+              <span className="text-[10px] font-bold px-2 py-0.5 rounded" style={{ background: method === 'POST' ? `${design.colors.primary}20` : method === 'GET' ? `${design.colors.cta}20` : `${design.colors.accent}20`, color: method === 'POST' ? design.colors.primary : method === 'GET' ? design.colors.cta : design.colors.accent }}>{method}</span>
+              <code className="text-xs flex-1" style={{ color: design.colors.text }}>{path}</code>
+              <span className="text-xs" style={{ color: `${design.colors.text}40` }}>{desc}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function AISaaSPages({ design, page }: Props) {
   if (page === 'landing') return <Landing design={design} />;
   if (page === 'pricing') return <Pricing design={design} />;
   if (page === 'dashboard') return <Dashboard design={design} />;
+  if (page === 'docs') return <Docs design={design} />;
   return <Landing design={design} />;
 }
