@@ -24,18 +24,18 @@ export function HomePage() {
   const featured = systemDesigns.slice(0, 3);
 
   return (
-    <div className="p-8 max-w-6xl">
+    <div className="p-4 md:p-8 max-w-6xl">
       {/* Hero */}
       <div className="mb-16">
         <div className="inline-flex items-center gap-2 glass rounded-full px-4 py-1.5 mb-6">
           <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
           <span className="text-white/60 text-xs font-medium">Design Intelligence System v2.0</span>
         </div>
-        <h1 className="text-5xl font-bold text-white leading-tight mb-4">
+        <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">
           UI/UX Pro Max<br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Design Explorer</span>
         </h1>
-        <p className="text-white/60 text-xl leading-relaxed max-w-2xl mb-8">
+        <p className="text-white/60 text-base md:text-xl leading-relaxed max-w-2xl mb-8">
           Browse 67 UI styles, 96 color palettes, 57 font pairings, and 8 fully designed system demos — all powered by the ui-ux-pro-max skill library.
         </p>
         <div className="flex gap-4 flex-wrap">
@@ -55,7 +55,7 @@ export function HomePage() {
       </div>
 
       {/* Stats grid */}
-      <div className="grid grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+      <div className="grid grid-cols-3 lg:grid-cols-6 gap-3 md:gap-4 mb-10 md:mb-16">
         {stats.map(({ value, label, icon }) => (
           <div key={label} className="glass rounded-2xl p-4 text-center hover:bg-white/15 transition-colors duration-200">
             <div className="text-2xl font-mono text-white/30 mb-1">{icon}</div>

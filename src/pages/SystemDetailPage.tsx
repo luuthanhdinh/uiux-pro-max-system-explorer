@@ -47,70 +47,83 @@ export function SystemDetailPage() {
   const activePgDef = design.pages.find((p) => p.id === activePage);
 
   return (
-    <div className="flex gap-0 h-screen overflow-hidden">
-      {/* Left panel — design tokens */}
-      <aside className="w-56 flex-shrink-0 overflow-y-auto scrollbar-none p-4 border-r border-white/10 flex flex-col gap-5" style={{ background: 'rgba(255,255,255,0.03)' }}>
-        <div>
-          <Link to="/systems" className="flex items-center gap-1.5 text-white/30 hover:text-white/60 text-xs transition-colors duration-200 cursor-pointer mb-4">
+    <div className="flex flex-col md:flex-row gap-0 h-screen overflow-hidden">
+      {/* Left panel — design tokens (full width strip on mobile, sidebar on md+) */}
+      <aside className="md:w-56 flex-shrink-0 border-b md:border-b-0 md:border-r border-white/10 flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto scrollbar-none" style={{ background: 'rgba(255,255,255,0.03)' }}>
+
+        {/* Mobile: compact horizontal strip */}
+        <div className="flex md:hidden items-center gap-3 px-4 py-2.5 min-w-0">
+          <Link to="/systems" className="flex items-center gap-1 text-white/40 hover:text-white/70 text-xs transition-colors cursor-pointer flex-shrink-0">
             <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
-            All Systems
           </Link>
-          <h2 className="text-white font-semibold text-sm leading-tight mb-1">{design.name}</h2>
-          <p className="text-white/40 text-xs leading-relaxed">{design.tagline}</p>
-        </div>
-
-        {/* Style */}
-        <div>
-          <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Style</p>
-          <div className="space-y-1">
-            <span className="inline-block glass rounded-lg px-2.5 py-1 text-xs text-indigo-300 font-medium">{design.style}</span>
-            <br />
-            <span className="inline-block glass rounded-lg px-2.5 py-1 text-xs text-white/40">{design.styleSecondary}</span>
+          <div className="min-w-0 flex-shrink-0">
+            <p className="text-white font-semibold text-xs leading-none truncate max-w-[120px]">{design.name}</p>
           </div>
-        </div>
-
-        {/* Colors */}
-        <div>
-          <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Color Palette</p>
-          <div className="space-y-2">
-            {(Object.entries(design.colors) as [string, string][]).map(([key, hex]) => {
-              if (!hex || !hex.startsWith('#')) return null;
-              return (
-                <div key={key} className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg border border-white/10 flex-shrink-0" style={{ background: hex }} title={hex} />
-                  <div className="min-w-0">
-                    <p className="text-white/50 text-[10px] capitalize leading-none">{key}</p>
-                    <p className="text-white/25 text-[9px] font-mono">{hex}</p>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Typography */}
-        <div>
-          <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Typography</p>
-          <div className="space-y-2">
-            <div className="glass rounded-xl p-2.5">
-              <p className="text-white/30 text-[9px] uppercase tracking-wider mb-1">Heading</p>
-              <p className="text-white/70 text-xs font-medium">{design.typography.headingFont}</p>
-            </div>
-            <div className="glass rounded-xl p-2.5">
-              <p className="text-white/30 text-[9px] uppercase tracking-wider mb-1">Body</p>
-              <p className="text-white/70 text-xs">{design.typography.bodyFont}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Product type + tags */}
-        <div>
-          <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Product Type</p>
-          <p className="text-white/60 text-xs mb-3">{design.productType}</p>
-          <div className="flex flex-wrap gap-1">
-            {design.tags.map((tag) => (
-              <span key={tag} className="text-[10px] glass rounded-md px-1.5 py-0.5 text-white/40">{tag}</span>
+          <span className="flex-shrink-0 glass rounded-lg px-2 py-0.5 text-[10px] text-indigo-300 font-medium whitespace-nowrap">{design.style}</span>
+          {/* Color dots */}
+          <div className="flex gap-1 flex-shrink-0">
+            {[design.colors.primary, design.colors.secondary, design.colors.cta, design.colors.accent || design.colors.border].map((c) => (
+              <div key={c} className="w-4 h-4 rounded-full border border-white/10 flex-shrink-0" style={{ background: c }} />
             ))}
+          </div>
+        </div>
+
+        {/* Desktop: full vertical panel */}
+        <div className="hidden md:flex flex-col gap-5 p-4 w-56">
+          <div>
+            <Link to="/systems" className="flex items-center gap-1.5 text-white/30 hover:text-white/60 text-xs transition-colors duration-200 cursor-pointer mb-4">
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+              All Systems
+            </Link>
+            <h2 className="text-white font-semibold text-sm leading-tight mb-1">{design.name}</h2>
+            <p className="text-white/40 text-xs leading-relaxed">{design.tagline}</p>
+          </div>
+          <div>
+            <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Style</p>
+            <div className="space-y-1">
+              <span className="inline-block glass rounded-lg px-2.5 py-1 text-xs text-indigo-300 font-medium">{design.style}</span>
+              <br />
+              <span className="inline-block glass rounded-lg px-2.5 py-1 text-xs text-white/40">{design.styleSecondary}</span>
+            </div>
+          </div>
+          <div>
+            <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Color Palette</p>
+            <div className="space-y-2">
+              {(Object.entries(design.colors) as [string, string][]).map(([key, hex]) => {
+                if (!hex || !hex.startsWith('#')) return null;
+                return (
+                  <div key={key} className="flex items-center gap-2">
+                    <div className="w-7 h-7 rounded-lg border border-white/10 flex-shrink-0" style={{ background: hex }} title={hex} />
+                    <div className="min-w-0">
+                      <p className="text-white/50 text-[10px] capitalize leading-none">{key}</p>
+                      <p className="text-white/25 text-[9px] font-mono">{hex}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Typography</p>
+            <div className="space-y-2">
+              <div className="glass rounded-xl p-2.5">
+                <p className="text-white/30 text-[9px] uppercase tracking-wider mb-1">Heading</p>
+                <p className="text-white/70 text-xs font-medium">{design.typography.headingFont}</p>
+              </div>
+              <div className="glass rounded-xl p-2.5">
+                <p className="text-white/30 text-[9px] uppercase tracking-wider mb-1">Body</p>
+                <p className="text-white/70 text-xs">{design.typography.bodyFont}</p>
+              </div>
+            </div>
+          </div>
+          <div>
+            <p className="text-white/25 text-[10px] uppercase tracking-widest mb-2">Product Type</p>
+            <p className="text-white/60 text-xs mb-3">{design.productType}</p>
+            <div className="flex flex-wrap gap-1">
+              {design.tags.map((tag) => (
+                <span key={tag} className="text-[10px] glass rounded-md px-1.5 py-0.5 text-white/40">{tag}</span>
+              ))}
+            </div>
           </div>
         </div>
       </aside>

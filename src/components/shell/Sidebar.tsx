@@ -45,7 +45,7 @@ export function Sidebar() {
   const isExplorer = location.pathname.startsWith('/explorer');
 
   return (
-    <aside className="w-60 h-screen fixed left-0 top-0 flex flex-col z-40" style={{ background: 'rgba(15,15,26,0.95)', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
+    <aside className="hidden md:flex w-60 h-screen fixed left-0 top-0 flex-col z-40" style={{ background: 'rgba(15,15,26,0.95)', borderRight: '1px solid rgba(255,255,255,0.08)' }}>
       {/* Logo */}
       <div className="px-5 py-5 flex items-center gap-3 border-b border-white/10">
         <div className="w-8 h-8 rounded-lg bg-indigo-500 flex items-center justify-center flex-shrink-0">

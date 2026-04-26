@@ -4,7 +4,7 @@ import { systemDesigns } from '../data/systemDesigns';
 
 export function SystemsPage() {
   return (
-    <div className="p-8">
+    <div className="p-4 md:p-8">
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-white mb-2">System Designs</h1>
         <p className="text-white/50 text-sm max-w-2xl">
