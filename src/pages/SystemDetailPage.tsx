@@ -5,7 +5,7 @@ import { PageTabBar } from '../components/system/PageTabBar';
 import { FintechPages } from '../components/system/demo-pages/FintechPages';
 import { AISaaSPages } from '../components/system/demo-pages/AISaaSPages';
 import { GenericPages } from '../components/system/demo-pages/GenericPages';
-// removed unused: import { getContrastColor } from '../lib/utils';
+import { generateDesignSystemMd } from '../lib/utils';
 
 function DemoRenderer({ designId, page }: { designId: string; page: string }) {
   const design = systemDesigns.find((d) => d.id === designId);
@@ -45,6 +45,19 @@ export function SystemDetailPage() {
   }
 
   const activePgDef = design.pages.find((p) => p.id === activePage);
+
+  function handleExport() {
+    // design is guaranteed non-null here (early return above handles undefined)
+    const d = design!;
+    const md = generateDesignSystemMd(d);
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${d.id}-design-system.md`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   return (
     <div className="flex flex-col md:flex-row gap-0 h-screen overflow-hidden">
@@ -143,6 +156,16 @@ export function SystemDetailPage() {
               <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
               <span>{design.id}.app/{activePage === 'landing' ? '' : activePage}</span>
             </div>
+            <button
+              onClick={handleExport}
+              title="Export design system as Markdown"
+              className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-200 transition-colors duration-150 cursor-pointer flex-shrink-0"
+            >
+              <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              <span className="hidden sm:inline">Export .md</span>
+            </button>
           </div>
 
           {/* Page tabs */}
