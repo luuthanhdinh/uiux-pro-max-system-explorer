@@ -8,7 +8,7 @@ export function SystemsPage() {
       <div className="mb-10">
         <h1 className="text-3xl font-bold text-white mb-2">System Designs</h1>
         <p className="text-white/50 text-sm max-w-2xl">
-          8 fully designed, multi-page product systems — each with a unique style, color palette, typography, and 3-4 polished demo pages.
+          16 fully designed, multi-page product systems — each with a unique style, color palette, typography, and 3-4 polished demo pages.
         </p>
       </div>
 

@@ -107,7 +107,7 @@ export function Sidebar() {
       {/* Footer stats */}
       <div className="p-4 border-t border-white/10">
         <div className="grid grid-cols-2 gap-2 text-center">
-          {[['67', 'Styles'], ['96', 'Palettes'], ['57', 'Fonts'], ['8', 'Systems']].map(([num, lbl]) => (
+          {[['67', 'Styles'], ['96', 'Palettes'], ['57', 'Fonts'], ['16', 'Systems']].map(([num, lbl]) => (
             <div key={lbl} className="glass rounded-lg py-2">
               <p className="text-indigo-300 font-bold text-sm">{num}</p>
               <p className="text-white/40 text-[10px]">{lbl}</p>

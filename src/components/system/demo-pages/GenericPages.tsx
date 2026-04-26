@@ -1848,6 +1848,752 @@ function AnalyticsSettings({ design }: { design: SystemDesign }) {
   );
 }
 
+/* ─── TRAVEL & BOOKING ─── */
+function TravelLanding({ design }: { design: SystemDesign }) {
+  const destinations = [['Bali, Indonesia', '✈️ 14h · $620', '🌴'], ['Paris, France', '✈️ 10h · $490', '🗼'], ['Tokyo, Japan', '✈️ 12h · $780', '⛩️'], ['New York, USA', '✈️ 8h · $350', '🗽']];
+  const trending = [['Santorini', '🇬🇷', '4.9★'], ['Maldives', '🇲🇻', '4.8★'], ['Kyoto', '🇯🇵', '4.9★'], ['Amalfi Coast', '🇮🇹', '4.7★'], ['Iceland', '🇮🇸', '4.8★'], ['Patagonia', '🇦🇷', '4.6★']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-8 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>Wandr</span>
+        <div className="flex gap-6 text-sm" style={{ color: `${design.colors.text}60` }}>
+          {['Flights', 'Hotels', 'Packages', 'Experiences'].map((l) => <a key={l} className="cursor-pointer hover:opacity-80">{l}</a>)}
+        </div>
+        <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Sign In</button>
+      </nav>
+      <div className="px-8 py-10">
+        <h1 className="text-4xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Where to next?</h1>
+        <p className="text-sm mb-6" style={{ color: `${design.colors.text}50` }}>Search flights, hotels, and experiences worldwide</p>
+        <div className="flex gap-2 p-2 rounded-2xl border mb-10 max-w-2xl" style={{ borderColor: design.colors.border, background: '#fff' }}>
+          {[['📍', 'From'], ['📍', 'To'], ['📅', 'Dates'], ['👥', 'Guests']].map(([icon, ph]) => (
+            <div key={ph} className="flex-1 flex items-center gap-1.5 px-3 py-2 rounded-xl border text-xs" style={{ borderColor: design.colors.border, color: `${design.colors.text}40` }}>{icon} {ph}</div>
+          ))}
+          <button className="px-5 py-2 rounded-xl text-xs font-bold cursor-pointer flex-shrink-0" style={{ background: design.colors.cta, color: '#fff' }}>Search</button>
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: `${design.colors.text}40` }}>Popular Destinations</p>
+        <div className="grid grid-cols-4 gap-4 mb-8">
+          {destinations.map(([name, info, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: design.colors.border }}>
+              <div className="h-28 flex items-center justify-center text-5xl" style={{ background: `linear-gradient(135deg, ${design.colors.primary}15, ${design.colors.secondary}10)` }}>{icon}</div>
+              <div className="p-3">
+                <p className="font-semibold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{name}</p>
+                <p className="text-xs mt-0.5" style={{ color: `${design.colors.text}50` }}>{info}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Trending Now</p>
+        <div className="flex gap-3 flex-wrap">
+          {trending.map(([place, flag, rating]) => (
+            <div key={place} className="flex items-center gap-2 px-3 py-2 rounded-xl border cursor-pointer" style={{ borderColor: design.colors.border }}>
+              <span>{flag}</span><span className="text-xs font-medium" style={{ color: design.colors.text }}>{place}</span><span className="text-[10px]" style={{ color: design.colors.cta }}>{rating}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TravelSearch({ design }: { design: SystemDesign }) {
+  const results = [
+    { name: 'Sunset Beach Resort', location: 'Bali, Indonesia', price: '$142/night', rating: '4.9', icon: '🏖️', tags: ['Pool', 'Breakfast', 'Spa'] },
+    { name: 'Azure Cliff Hotel', location: 'Santorini, Greece', price: '$310/night', rating: '4.8', icon: '🌊', tags: ['Sea View', 'Rooftop', 'WiFi'] },
+    { name: 'Forest Canopy Lodge', location: 'Costa Rica', price: '$88/night', rating: '4.7', icon: '🌿', tags: ['Eco', 'Pool', 'Tours'] },
+    { name: 'Tokyo Central Inn', location: 'Tokyo, Japan', price: '$95/night', rating: '4.6', icon: '🏯', tags: ['Central', 'WiFi', 'Gym'] },
+  ];
+  return (
+    <div className="flex min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <aside className="w-52 flex-shrink-0 border-r p-4" style={{ borderColor: design.colors.border }}>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Filters</p>
+        {[['Price Range', ['Any', 'Under $100', '$100–$200', '$200+'], 0], ['Rating', ['Any', '4★+', '4.5★+', '5★'], 0], ['Type', ['Hotel', 'Resort', 'Villa', 'Hostel'], 0]].map(([label, opts, active]) => (
+          <div key={label as string} className="mb-4">
+            <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>{label as string}</p>
+            <div className="flex flex-wrap gap-1">
+              {(opts as string[]).map((o, i) => (
+                <button key={o} className="px-2 py-1 rounded-lg text-[10px] cursor-pointer border" style={{ background: i === active ? design.colors.primary : 'transparent', color: i === active ? '#fff' : `${design.colors.text}50`, borderColor: i === active ? design.colors.primary : design.colors.border }}>{o}</button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </aside>
+      <div className="flex-1 p-5">
+        <p className="text-sm mb-4" style={{ color: `${design.colors.text}50` }}>Showing {results.length} hotels · Bali, Apr 29 – May 5 · 2 guests</p>
+        <div className="space-y-4">
+          {results.map((r) => (
+            <div key={r.name} className="flex gap-4 p-4 rounded-2xl border cursor-pointer" style={{ borderColor: design.colors.border }}>
+              <div className="w-24 h-20 rounded-xl flex items-center justify-center text-4xl flex-shrink-0" style={{ background: `${design.colors.primary}10` }}>{r.icon}</div>
+              <div className="flex-1">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="font-semibold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{r.name}</p>
+                    <p className="text-xs mt-0.5" style={{ color: `${design.colors.text}50` }}>📍 {r.location}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-bold" style={{ color: design.colors.primary }}>{r.price}</p>
+                    <p className="text-xs" style={{ color: design.colors.cta }}>{r.rating}★</p>
+                  </div>
+                </div>
+                <div className="flex gap-1.5 mt-2">
+                  {r.tags.map((t) => <span key={t} className="text-[10px] px-2 py-0.5 rounded-lg border" style={{ borderColor: design.colors.border, color: `${design.colors.text}50` }}>{t}</span>)}
+                </div>
+              </div>
+              <button className="self-center px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer flex-shrink-0" style={{ background: design.colors.cta, color: '#fff' }}>Book</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TravelDetail({ design }: { design: SystemDesign }) {
+  const amenities = ['Swimming Pool', 'Free WiFi', 'Spa & Wellness', 'Airport Transfer', 'Room Service', 'Breakfast Included', 'Beach Access', 'Gym'];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="h-48 flex items-center justify-center text-8xl" style={{ background: `linear-gradient(135deg, ${design.colors.primary}20, ${design.colors.secondary}15)` }}>🏖️</div>
+      <div className="px-8 py-5">
+        <div className="flex items-start justify-between mb-5">
+          <div>
+            <h1 className="text-2xl font-bold mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Sunset Beach Resort</h1>
+            <p className="text-sm" style={{ color: `${design.colors.text}50` }}>📍 Seminyak, Bali · <span style={{ color: design.colors.cta }}>4.9★</span> (2,840 reviews)</p>
+          </div>
+          <div className="text-right">
+            <p className="text-2xl font-bold" style={{ color: design.colors.primary }}>$142<span className="text-sm font-normal" style={{ color: `${design.colors.text}40` }}>/night</span></p>
+            <p className="text-xs" style={{ color: `${design.colors.text}40` }}>6 nights · $852 total</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-5">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Amenities</p>
+            <div className="flex flex-wrap gap-2 mb-5">
+              {amenities.map((a) => <span key={a} className="text-xs px-2.5 py-1 rounded-xl border" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>✓ {a}</span>)}
+            </div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: `${design.colors.text}40` }}>Description</p>
+            <p className="text-sm leading-relaxed" style={{ color: `${design.colors.text}60` }}>Nestled along Seminyak's golden coastline, Sunset Beach Resort blends Balinese architecture with modern luxury. Wake up to ocean views and fall asleep to the sound of waves.</p>
+          </div>
+          <div className="p-4 rounded-2xl border" style={{ borderColor: design.colors.border }}>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Your Stay</p>
+            <div className="grid grid-cols-2 gap-2 mb-4">
+              {[['Check-in', 'Apr 29'], ['Check-out', 'May 5'], ['Guests', '2 Adults'], ['Room', 'Deluxe Ocean']].map(([l, v]) => (
+                <div key={l} className="p-2.5 rounded-xl border" style={{ borderColor: design.colors.border }}>
+                  <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{l}</p>
+                  <p className="text-xs font-semibold mt-0.5" style={{ color: design.colors.text }}>{v}</p>
+                </div>
+              ))}
+            </div>
+            <div className="space-y-1.5 mb-4 text-xs">
+              {[['6 nights × $142', '$852'], ['Taxes & fees', '$102'], ['Total', '$954']].map(([l, v], i) => (
+                <div key={l} className={`flex justify-between ${i === 2 ? 'font-bold pt-2 border-t' : ''}`} style={{ borderColor: design.colors.border }}>
+                  <span style={{ color: i === 2 ? design.colors.text : `${design.colors.text}60` }}>{l}</span>
+                  <span style={{ color: i === 2 ? design.colors.primary : design.colors.text }}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <button className="w-full py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Reserve Now</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function TravelCheckout({ design }: { design: SystemDesign }) {
+  const steps = ['Traveler Details', 'Payment', 'Confirmation'];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-8 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>Wandr</span>
+      </nav>
+      <div className="px-8 py-6 max-w-2xl">
+        <div className="flex items-center gap-2 mb-6">
+          {steps.map((s, i) => (
+            <div key={s} className="flex items-center gap-2">
+              <div className="flex items-center gap-2">
+                <div className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: i === 0 ? design.colors.primary : i < 0 ? design.colors.cta : `${design.colors.border}60`, color: i <= 0 ? '#fff' : `${design.colors.text}40` }}>{i + 1}</div>
+                <span className="text-xs" style={{ color: i === 0 ? design.colors.text : `${design.colors.text}40` }}>{s}</span>
+              </div>
+              {i < steps.length - 1 && <div className="w-8 h-px" style={{ background: design.colors.border }} />}
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <p className="text-sm font-semibold" style={{ color: design.colors.text }}>Primary Traveler</p>
+            {[['First Name', 'John'], ['Last Name', 'Doe'], ['Email', 'john@example.com'], ['Phone', '+1 (555) 000-0000'], ['Passport No.', 'AB1234567']].map(([label, placeholder]) => (
+              <div key={label}>
+                <p className="text-xs mb-1" style={{ color: `${design.colors.text}60` }}>{label}</p>
+                <div className="h-9 rounded-xl border px-3 flex items-center text-xs" style={{ borderColor: design.colors.border, color: `${design.colors.text}50`, background: '#fff' }}>{placeholder}</div>
+              </div>
+            ))}
+          </div>
+          <div>
+            <div className="p-4 rounded-2xl border mb-4" style={{ borderColor: design.colors.border, background: `${design.colors.primary}05` }}>
+              <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Booking Summary</p>
+              <div className="flex gap-3 mb-3">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style={{ background: `${design.colors.primary}15` }}>🏖️</div>
+                <div>
+                  <p className="text-sm font-semibold" style={{ color: design.colors.text }}>Sunset Beach Resort</p>
+                  <p className="text-xs" style={{ color: `${design.colors.text}50` }}>Apr 29 – May 5 · 2 guests</p>
+                </div>
+              </div>
+              {[['Room', 'Deluxe Ocean View'], ['Subtotal', '$852'], ['Taxes', '$102'], ['Total', '$954']].map(([l, v], i) => (
+                <div key={l} className={`flex justify-between text-xs ${i === 3 ? 'font-bold pt-2 border-t mt-2' : 'mb-1.5'}`} style={{ borderColor: design.colors.border }}>
+                  <span style={{ color: `${design.colors.text}60` }}>{l}</span><span style={{ color: i === 3 ? design.colors.primary : design.colors.text }}>{v}</span>
+                </div>
+              ))}
+            </div>
+            <button className="w-full py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Continue to Payment →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── HR & PEOPLE OPS ─── */
+function HRDashboard({ design }: { design: SystemDesign }) {
+  const kpis = [['142', 'Employees', '+4 this month'], ['8', 'Open Roles', '3 urgent'], ['94%', 'Retention', '+2% YoY'], ['4.6', 'Eng. Score', '↑ from 4.4']];
+  const activity = [['Sarah Kim joined Engineering', '2h ago', '🎉'], ['Interview: Alex Chen scheduled', '4h ago', '📅'], ['Performance review due: 12 people', '1d ago', '⚠️'], ['New offer sent: Backend Engineer', '2d ago', '📤']];
+  const depts = [['Engineering', 52, 37], ['Product', 18, 13], ['Design', 14, 10], ['Sales', 38, 27], ['Marketing', 20, 13]];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>PeopleHub</span>
+        <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.cta, color: '#fff' }}>+ Add Employee</button>
+      </div>
+      <div className="p-6">
+        <div className="grid grid-cols-4 gap-3 mb-6">
+          {kpis.map(([val, label, sub]) => (
+            <div key={label} className="p-4 rounded-2xl border" style={{ borderColor: design.colors.border }}>
+              <p className="text-2xl font-bold mb-0.5" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>{val}</p>
+              <p className="text-xs font-semibold" style={{ color: design.colors.text }}>{label}</p>
+              <p className="text-[10px] mt-0.5" style={{ color: `${design.colors.text}40` }}>{sub}</p>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-5">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Department Breakdown</p>
+            <div className="space-y-2">
+              {depts.map(([name, count, pct]) => (
+                <div key={name} className="flex items-center gap-3">
+                  <span className="text-xs w-24 flex-shrink-0" style={{ color: `${design.colors.text}70` }}>{name}</span>
+                  <div className="flex-1 h-2 rounded-full" style={{ background: `${design.colors.border}60` }}>
+                    <div className="h-full rounded-full" style={{ width: `${pct}%`, background: design.colors.primary }} />
+                  </div>
+                  <span className="text-xs w-6 text-right" style={{ color: `${design.colors.text}50` }}>{count}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Recent Activity</p>
+            <div className="space-y-2">
+              {activity.map(([msg, time, icon]) => (
+                <div key={msg} className="flex items-start gap-2 p-2.5 rounded-xl border" style={{ borderColor: design.colors.border }}>
+                  <span className="text-base flex-shrink-0">{icon}</span>
+                  <div>
+                    <p className="text-xs" style={{ color: design.colors.text }}>{msg}</p>
+                    <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HRCandidates({ design }: { design: SystemDesign }) {
+  const stages = ['Applied', 'Screening', 'Interview', 'Offer', 'Hired'];
+  const candidates: Record<string, { name: string; role: string; score?: string }[]> = {
+    Applied: [{ name: 'Jordan Lee', role: 'Sr. Frontend Eng.' }, { name: 'Sam Park', role: 'Product Designer' }, { name: 'Priya Nair', role: 'Sr. Frontend Eng.' }],
+    Screening: [{ name: 'Alex Chen', role: 'Backend Eng.', score: '82%' }, { name: 'Maria Lopez', role: 'Sr. Frontend Eng.', score: '79%' }],
+    Interview: [{ name: 'David Kim', role: 'Backend Eng.', score: '91%' }],
+    Offer: [{ name: 'Emma Walsh', role: 'Product Designer', score: '95%' }],
+    Hired: [{ name: 'Tom Becker', role: 'Sr. Frontend Eng.' }],
+  };
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>PeopleHub</span>
+        <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>+ Add Candidate</button>
+      </div>
+      <div className="p-4 overflow-x-auto">
+        <div className="flex gap-3 min-w-max">
+          {stages.map((stage) => (
+            <div key={stage} className="w-44">
+              <div className="flex items-center justify-between mb-2 px-1">
+                <p className="text-xs font-semibold" style={{ color: `${design.colors.text}70` }}>{stage}</p>
+                <span className="text-[10px] px-1.5 py-0.5 rounded-full" style={{ background: `${design.colors.primary}20`, color: design.colors.primary }}>{candidates[stage]?.length ?? 0}</span>
+              </div>
+              <div className="space-y-2">
+                {(candidates[stage] ?? []).map((c) => (
+                  <div key={c.name} className="p-3 rounded-xl border cursor-pointer" style={{ borderColor: design.colors.border, background: '#fff' }}>
+                    <div className="flex items-center gap-2 mb-1">
+                      <div className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style={{ background: `${design.colors.primary}20`, color: design.colors.primary }}>{c.name[0]}</div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-semibold truncate" style={{ color: design.colors.text }}>{c.name}</p>
+                        <p className="text-[10px] truncate" style={{ color: `${design.colors.text}50` }}>{c.role}</p>
+                      </div>
+                    </div>
+                    {c.score && <span className="text-[10px] px-1.5 py-0.5 rounded font-semibold" style={{ background: `${design.colors.cta}20`, color: design.colors.cta }}>{c.score} match</span>}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HREmployee({ design }: { design: SystemDesign }) {
+  const goals = [['Ship v2 API redesign', 90, 'Q2 2026'], ['Complete system design course', 60, 'Q2 2026'], ['Lead 2 cross-team projects', 50, 'Q3 2026']];
+  const reviews = [['Q1 2026', 'Exceeded', '4.8/5.0'], ['Q4 2025', 'Meets', '4.2/5.0'], ['Q3 2025', 'Exceeded', '4.7/5.0']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center gap-4 px-8 py-5 border-b" style={{ borderColor: design.colors.border }}>
+        <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-xl font-bold" style={{ background: `${design.colors.primary}20`, color: design.colors.primary }}>DK</div>
+        <div className="flex-1">
+          <p className="font-bold text-base" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>David Kim</p>
+          <p className="text-xs" style={{ color: `${design.colors.text}50` }}>Senior Backend Engineer · Engineering · San Francisco</p>
+        </div>
+        <div className="flex gap-2">
+          {['Message', 'Edit Profile'].map((l, i) => (
+            <button key={l} className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer border" style={{ background: i === 1 ? design.colors.primary : 'transparent', color: i === 1 ? '#fff' : `${design.colors.text}60`, borderColor: i === 1 ? design.colors.primary : design.colors.border }}>{l}</button>
+          ))}
+        </div>
+      </div>
+      <div className="px-8 py-5 grid grid-cols-2 gap-6">
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Current Goals</p>
+          <div className="space-y-3">
+            {goals.map(([goal, pct, due]) => (
+              <div key={goal} className="p-3 rounded-xl border" style={{ borderColor: design.colors.border }}>
+                <div className="flex justify-between mb-1">
+                  <p className="text-xs font-medium" style={{ color: design.colors.text }}>{goal}</p>
+                  <span className="text-[10px]" style={{ color: `${design.colors.text}40` }}>Due {due}</span>
+                </div>
+                <div className="h-1.5 rounded-full mb-1" style={{ background: `${design.colors.border}60` }}>
+                  <div className="h-full rounded-full" style={{ width: `${pct}%`, background: design.colors.primary }} />
+                </div>
+                <p className="text-[10px]" style={{ color: design.colors.primary }}>{pct}%</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Performance Reviews</p>
+          <div className="rounded-xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+            <div className="grid grid-cols-3 px-4 py-2 text-[10px] font-semibold uppercase" style={{ background: `${design.colors.primary}08`, color: `${design.colors.text}40` }}>
+              <span>Period</span><span>Rating</span><span>Score</span>
+            </div>
+            {reviews.map(([period, rating, score]) => (
+              <div key={period} className="grid grid-cols-3 px-4 py-3 text-xs border-t" style={{ borderColor: design.colors.border }}>
+                <span style={{ color: design.colors.text }}>{period}</span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold w-fit" style={{ background: rating === 'Exceeded' ? `${design.colors.cta}15` : `${design.colors.border}40`, color: rating === 'Exceeded' ? design.colors.cta : `${design.colors.text}60` }}>{rating}</span>
+                <span style={{ color: design.colors.primary }}>{score}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HROnboarding({ design }: { design: SystemDesign }) {
+  const tasks: [string, string, boolean][] = [['Complete profile & photo', 'HR Team', true], ['Sign employment contract', 'Legal', true], ['Set up laptop & tools', 'IT', true], ['Meet your manager 1:1', 'Manager', false], ['Join team Slack channels', 'Self', false], ['Complete security training', 'IT', false], ['Review company handbook', 'HR Team', false]];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-8 py-6">
+        <div className="flex items-center gap-4 mb-6 p-4 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06` }}>
+          <div className="w-12 h-12 rounded-xl flex items-center justify-center text-xl" style={{ background: `${design.colors.primary}20` }}>👋</div>
+          <div>
+            <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Welcome, Sarah! Day 1 of 30</p>
+            <p className="text-xs" style={{ color: `${design.colors.text}50` }}>You're joining as Product Designer · Starting April 28, 2026</p>
+          </div>
+          <div className="ml-auto text-right">
+            <p className="text-2xl font-bold" style={{ color: design.colors.primary }}>3/7</p>
+            <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>tasks done</p>
+          </div>
+        </div>
+        <div className="flex items-center gap-2 mb-6">
+          <div className="flex-1 h-2 rounded-full" style={{ background: `${design.colors.border}60` }}>
+            <div className="h-full rounded-full" style={{ width: '43%', background: `linear-gradient(90deg, ${design.colors.primary}, ${design.colors.cta})` }} />
+          </div>
+          <span className="text-xs font-semibold" style={{ color: design.colors.primary }}>43%</span>
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Onboarding Checklist</p>
+        <div className="space-y-2">
+          {tasks.map(([task, owner, done]) => (
+            <div key={task} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: done ? `${design.colors.cta}30` : design.colors.border, background: done ? `${design.colors.cta}05` : 'transparent' }}>
+              <div className="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0" style={{ borderColor: done ? design.colors.cta : design.colors.border, background: done ? design.colors.cta : 'transparent' }}>
+                {done && <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>}
+              </div>
+              <p className="flex-1 text-sm" style={{ color: done ? `${design.colors.text}60` : design.colors.text, textDecoration: done ? 'line-through' : 'none' }}>{task}</p>
+              <span className="text-[10px] px-2 py-0.5 rounded-full" style={{ background: `${design.colors.border}60`, color: `${design.colors.text}50` }}>{owner}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── NFT MARKETPLACE ─── */
+function NFTLanding({ design }: { design: SystemDesign }) {
+  const featured = [['Cosmic Drift #042', '8.4 ETH', '⏱ 2h 14m left', '🌌'], ['Neon Genesis #18', '2.1 ETH', 'Buy now', '⚡'], ['Void Protocol #7', '14.0 ETH', '⏱ 45m left', '🌀']];
+  const stats = [['420K+', 'Artworks'], ['48K+', 'Artists'], ['$2.4B', 'Volume'], ['190K', 'Collectors']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>VAULTT</span>
+        <div className="flex gap-5 text-sm" style={{ color: `${design.colors.text}60` }}>
+          {['Explore', 'Create', 'Rankings', 'Activity'].map((l) => <a key={l} className="cursor-pointer hover:opacity-80">{l}</a>)}
+        </div>
+        <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>Connect Wallet</button>
+      </nav>
+      <div className="px-6 py-8">
+        <h1 className="text-4xl font-bold mb-3 max-w-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>
+          Discover & collect <span style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.cta})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>extraordinary</span> NFTs
+        </h1>
+        <p className="text-sm mb-6" style={{ color: `${design.colors.text}50` }}>The world's largest digital marketplace for crypto collectibles</p>
+        <div className="flex gap-3 mb-8">
+          <button className="px-6 py-2.5 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>Explore</button>
+          <button className="px-6 py-2.5 rounded-xl font-semibold text-sm cursor-pointer border" style={{ borderColor: design.colors.border, color: design.colors.text }}>Create</button>
+        </div>
+        <div className="flex gap-6 mb-8">
+          {stats.map(([val, label]) => (
+            <div key={label}>
+              <p className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>{val}</p>
+              <p className="text-xs" style={{ color: `${design.colors.text}40` }}>{label}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: `${design.colors.text}40` }}>Live Auctions</p>
+        <div className="grid grid-cols-3 gap-4">
+          {featured.map(([name, price, action, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden" style={{ borderColor: design.colors.border, background: `${design.colors.border}40` }}>
+              <div className="h-36 flex items-center justify-center text-6xl" style={{ background: `linear-gradient(135deg, ${design.colors.primary}20, ${design.colors.secondary}10)` }}>{icon}</div>
+              <div className="p-4">
+                <p className="font-semibold text-sm mb-1" style={{ color: design.colors.text }}>{name}</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-bold" style={{ color: design.colors.primary }}>{price}</p>
+                  <span className="text-[10px] px-2 py-0.5 rounded-lg" style={{ background: `${design.colors.cta}20`, color: design.colors.cta }}>{action}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NFTExplore({ design }: { design: SystemDesign }) {
+  const categories = ['All', 'Art', 'Gaming', 'Music', 'Photography', 'Sports', 'Utility'];
+  const items = [['Void Protocol #7', '14.0 ETH', '🌀'], ['Neon Genesis #18', '2.1 ETH', '⚡'], ['Cosmic Drift #42', '8.4 ETH', '🌌'], ['Pixel Punk #301', '0.8 ETH', '👾'], ['Astral Being #9', '5.5 ETH', '✨'], ['Dark Matter #61', '3.2 ETH', '🔮'], ['Aurora #15', '1.9 ETH', '🌈'], ['Cipher #88', '6.0 ETH', '🧩'], ['Phantom #4', '12.5 ETH', '👻']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-6 pt-5 pb-3 border-b" style={{ borderColor: design.colors.border }}>
+        <div className="flex gap-2 overflow-x-auto scrollbar-none">
+          {categories.map((c) => (
+            <button key={c} className="px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer flex-shrink-0" style={{ background: c === 'All' ? design.colors.primary : `${design.colors.border}40`, color: c === 'All' ? '#fff' : `${design.colors.text}60` }}>{c}</button>
+          ))}
+        </div>
+      </div>
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm" style={{ color: `${design.colors.text}50` }}>420,312 items</p>
+          <select className="text-xs border rounded-xl px-2 py-1.5 cursor-pointer" style={{ borderColor: design.colors.border, color: design.colors.text, background: design.colors.background }}>
+            <option>Recently listed</option>
+          </select>
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {items.map(([name, price, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: design.colors.border, background: `${design.colors.border}30` }}>
+              <div className="h-28 flex items-center justify-center text-5xl" style={{ background: `linear-gradient(135deg, ${design.colors.primary}15, ${design.colors.secondary}10)` }}>{icon}</div>
+              <div className="p-3">
+                <p className="text-xs font-semibold mb-1" style={{ color: design.colors.text }}>{name}</p>
+                <p className="text-xs font-bold" style={{ color: design.colors.primary }}>{price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NFTItem({ design }: { design: SystemDesign }) {
+  const bids = [['0xA3f...892', '13.5 ETH', '5m ago'], ['0xB7c...441', '12.0 ETH', '12m ago'], ['0xF1e...230', '10.8 ETH', '28m ago']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="grid grid-cols-2 gap-6 p-6">
+        <div>
+          <div className="rounded-2xl h-64 flex items-center justify-center text-8xl border" style={{ borderColor: design.colors.border, background: `linear-gradient(135deg, ${design.colors.primary}20, ${design.colors.secondary}10)` }}>🌀</div>
+        </div>
+        <div>
+          <p className="text-xs mb-1" style={{ color: design.colors.secondary }}>Void Protocol Collection</p>
+          <h1 className="text-2xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Void Protocol #7</h1>
+          <p className="text-xs mb-4" style={{ color: `${design.colors.text}50` }}>Owned by <span style={{ color: design.colors.primary }}>0xA3f...892</span></p>
+          <div className="p-4 rounded-2xl border mb-4" style={{ borderColor: design.colors.border, background: `${design.colors.border}30` }}>
+            <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: `${design.colors.text}40` }}>Current Bid</p>
+            <p className="text-3xl font-bold" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>14.0 ETH</p>
+            <p className="text-xs mt-1" style={{ color: design.colors.cta }}>⏱ Auction ends in 45:12</p>
+          </div>
+          <div className="flex gap-2 mb-5">
+            <button className="flex-1 py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>Place Bid</button>
+            <button className="px-4 py-3 rounded-xl border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>♡</button>
+          </div>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-2" style={{ color: `${design.colors.text}40` }}>Bid History</p>
+          <div className="space-y-2">
+            {bids.map(([addr, amount, time]) => (
+              <div key={addr} className="flex items-center justify-between text-xs">
+                <span style={{ color: design.colors.primary }}>{addr}</span>
+                <span className="font-semibold" style={{ color: design.colors.text }}>{amount}</span>
+                <span style={{ color: `${design.colors.text}40` }}>{time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function NFTProfile({ design }: { design: SystemDesign }) {
+  const created = [['Void Protocol #7', '14.0 ETH', '🌀'], ['Void Protocol #12', '9.2 ETH', '🌀'], ['Dark Matter #61', '3.2 ETH', '🔮']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="h-24" style={{ background: `linear-gradient(135deg, ${design.colors.primary}60, ${design.colors.secondary}40, ${design.colors.cta}20)` }} />
+      <div className="px-6 pb-6 -mt-8">
+        <div className="flex items-end gap-4 mb-4">
+          <div className="w-16 h-16 rounded-2xl border-4 flex items-center justify-center text-2xl font-bold" style={{ borderColor: design.colors.background, background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>V</div>
+          <div className="flex-1 pt-8">
+            <p className="font-bold text-base" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>VoidArtist</p>
+            <p className="text-xs" style={{ color: `${design.colors.text}50` }}>0xA3f...892 · Verified Creator</p>
+          </div>
+          <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer border" style={{ borderColor: design.colors.primary, color: design.colors.primary }}>Follow</button>
+        </div>
+        <div className="flex gap-6 mb-5">
+          {[['142', 'Items'], ['48.2K', 'Volume'], ['2.4K', 'Followers'], ['312', 'Following']].map(([v, l]) => (
+            <div key={l}>
+              <p className="font-bold text-sm" style={{ color: design.colors.primary }}>{v}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex gap-3 mb-4">
+          {['Created', 'Collected'].map((tab, i) => (
+            <button key={tab} className="px-4 py-1.5 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: i === 0 ? design.colors.primary : `${design.colors.border}40`, color: i === 0 ? '#fff' : `${design.colors.text}60` }}>{tab}</button>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-3">
+          {created.map(([name, price, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: design.colors.border, background: `${design.colors.border}30` }}>
+              <div className="h-20 flex items-center justify-center text-4xl" style={{ background: `linear-gradient(135deg, ${design.colors.primary}15, ${design.colors.secondary}10)` }}>{icon}</div>
+              <div className="p-2.5">
+                <p className="text-xs font-semibold" style={{ color: design.colors.text }}>{name}</p>
+                <p className="text-xs font-bold" style={{ color: design.colors.primary }}>{price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── FITNESS & WELLNESS ─── */
+function FitnessDashboard({ design }: { design: SystemDesign }) {
+  const rings: [string, number, number, string][] = [['Move', 820, 900, design.colors.primary], ['Exercise', 42, 60, design.colors.cta], ['Stand', 10, 12, design.colors.accent ?? design.colors.border]];
+  const upcoming = [['Upper Body Power', '45 min · Intermediate', '💪'], ['5K Run', '30 min · Cardio', '🏃'], ['Yoga Flow', '20 min · Recovery', '🧘']];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <div>
+          <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Good morning, Alex 👋</p>
+          <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>Monday · 14-day streak 🔥</p>
+        </div>
+        <div className="w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs" style={{ background: design.colors.primary, color: '#fff' }}>AJ</div>
+      </div>
+      <div className="p-5">
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          {rings.map(([label, val, max, color]) => (
+            <div key={label} className="p-4 rounded-2xl border text-center" style={{ borderColor: design.colors.border, background: `${design.colors.border}30` }}>
+              <div className="w-14 h-14 rounded-full mx-auto mb-2 flex items-center justify-center font-bold text-sm" style={{ background: `conic-gradient(${color} ${(Number(val)/Number(max))*360}deg, ${design.colors.border} 0deg)`, color: design.colors.text }}>
+                <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: design.colors.background }}>
+                  <span className="text-[10px] font-bold" style={{ color }}>{Math.round(Number(val)/Number(max)*100)}%</span>
+                </div>
+              </div>
+              <p className="text-xs font-semibold" style={{ color: design.colors.text }}>{label}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{val}/{max}</p>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          {[['1,840', 'kcal burned'], ['8,420', 'steps today'], ['72', 'bpm avg']].map(([v, l]) => (
+            <div key={l} className="p-3 rounded-xl border text-center" style={{ borderColor: design.colors.border }}>
+              <p className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>{v}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Today's Schedule</p>
+        <div className="space-y-2">
+          {upcoming.map(([name, meta, icon]) => (
+            <div key={name} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+              <span className="text-2xl">{icon}</span>
+              <div className="flex-1"><p className="text-sm font-semibold" style={{ color: design.colors.text }}>{name}</p><p className="text-[10px]" style={{ color: `${design.colors.text}50` }}>{meta}</p></div>
+              <button className="px-3 py-1.5 rounded-xl text-xs font-bold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Start</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FitnessWorkout({ design }: { design: SystemDesign }) {
+  const exercises: [string, string, string, boolean][] = [['Barbell Squat', '4 × 8', '80kg', true], ['Romanian Deadlift', '3 × 10', '60kg', true], ['Leg Press', '3 × 12', '120kg', false], ['Calf Raises', '4 × 15', 'BW', false], ['Leg Extension', '3 × 12', '50kg', false]];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-5 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <div>
+          <p className="text-[10px] uppercase tracking-wider" style={{ color: `${design.colors.text}40` }}>Active Workout</p>
+          <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Lower Body Power</p>
+        </div>
+        <div className="text-right">
+          <p className="text-2xl font-bold font-mono" style={{ color: design.colors.primary }}>24:18</p>
+          <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>elapsed</p>
+        </div>
+      </div>
+      <div className="p-5">
+        <div className="p-4 rounded-2xl border mb-4" style={{ borderColor: `${design.colors.primary}40`, background: `${design.colors.primary}10` }}>
+          <p className="text-[10px] uppercase tracking-wider mb-1" style={{ color: `${design.colors.text}40` }}>Current Exercise</p>
+          <p className="text-xl font-bold mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Romanian Deadlift</p>
+          <p className="text-sm font-semibold" style={{ color: design.colors.primary }}>Set 2 of 3 · 60kg</p>
+          <div className="flex gap-4 mt-3">
+            <button className="flex-1 py-2 rounded-xl text-xs font-bold cursor-pointer border" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>Skip</button>
+            <button className="flex-1 py-2 rounded-xl text-xs font-bold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Complete Set ✓</button>
+          </div>
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>All Exercises</p>
+        <div className="space-y-2">
+          {exercises.map(([name, sets, weight, done]) => (
+            <div key={`${name}-${sets}`} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: done ? `${design.colors.cta}30` : design.colors.border, background: done ? `${design.colors.cta}05` : 'transparent', opacity: done ? 0.7 : 1 }}>
+              <div className="w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center" style={{ borderColor: done ? design.colors.cta : design.colors.border, background: done ? design.colors.cta : 'transparent' }}>
+                {done && <svg className="w-3 h-3 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>}
+              </div>
+              <p className="flex-1 text-sm" style={{ color: design.colors.text }}>{name}</p>
+              <p className="text-xs" style={{ color: `${design.colors.text}50` }}>{sets}</p>
+              <p className="text-xs font-semibold" style={{ color: design.colors.primary }}>{weight}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FitnessPlans({ design }: { design: SystemDesign }) {
+  const plans = [
+    { name: '12-Week Strength', level: 'Intermediate', days: '4x/week', duration: '45–60 min', icon: '💪', tag: 'Popular' },
+    { name: '5K Run Program', level: 'Beginner', days: '3x/week', duration: '30 min', icon: '🏃', tag: 'New' },
+    { name: 'Lean & Tone', level: 'Intermediate', days: '5x/week', duration: '40 min', icon: '🔥', tag: '' },
+    { name: 'Yoga for Athletes', level: 'All levels', days: '3x/week', duration: '20 min', icon: '🧘', tag: '' },
+    { name: 'HIIT Blast', level: 'Advanced', days: '4x/week', duration: '30 min', icon: '⚡', tag: 'Hard' },
+    { name: 'Mobility & Recovery', level: 'All levels', days: '2x/week', duration: '25 min', icon: '🌿', tag: '' },
+  ];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-5 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Training Plans</p>
+      </div>
+      <div className="p-5">
+        <div className="flex gap-2 mb-4 overflow-x-auto scrollbar-none">
+          {['All', 'Strength', 'Cardio', 'Yoga', 'HIIT'].map((c) => (
+            <button key={c} className="px-3 py-1.5 rounded-xl text-xs font-semibold cursor-pointer flex-shrink-0" style={{ background: c === 'All' ? design.colors.primary : `${design.colors.border}40`, color: c === 'All' ? '#fff' : `${design.colors.text}60` }}>{c}</button>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          {plans.map((p) => (
+            <div key={p.name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+              <div className="h-20 flex items-center justify-center text-4xl relative" style={{ background: `linear-gradient(135deg, ${design.colors.primary}20, ${design.colors.secondary}10)` }}>
+                {p.icon}
+                {p.tag && <span className="absolute top-2 right-2 text-[10px] px-1.5 py-0.5 rounded font-bold" style={{ background: design.colors.cta, color: '#fff' }}>{p.tag}</span>}
+              </div>
+              <div className="p-3">
+                <p className="text-sm font-bold mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{p.name}</p>
+                <p className="text-[10px] mb-2" style={{ color: `${design.colors.text}50` }}>{p.level} · {p.days} · {p.duration}</p>
+                <button className="w-full py-1.5 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Start Plan</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function FitnessNutrition({ design }: { design: SystemDesign }) {
+  const meals = [['Overnight Oats', 'Breakfast', '420 kcal', '12g P · 68g C · 14g F'], ['Grilled Chicken Bowl', 'Lunch', '580 kcal', '48g P · 52g C · 12g F'], ['Protein Shake', 'Snack', '180 kcal', '25g P · 8g C · 4g F']];
+  const macros = [['Protein', 85, 150, design.colors.primary], ['Carbs', 240, 280, design.colors.cta], ['Fat', 58, 80, design.colors.accent]];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-5 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Nutrition</p>
+      </div>
+      <div className="p-5">
+        <div className="p-4 rounded-2xl border mb-5" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-xs font-semibold" style={{ color: `${design.colors.text}60` }}>Calories Today</p>
+            <p className="text-xs" style={{ color: `${design.colors.text}40` }}>Goal: 2,200</p>
+          </div>
+          <p className="text-3xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>1,180 <span className="text-sm font-normal" style={{ color: `${design.colors.text}40` }}>kcal</span></p>
+          <div className="h-2 rounded-full mb-4" style={{ background: `${design.colors.border}60` }}>
+            <div className="h-full rounded-full" style={{ width: '54%', background: `linear-gradient(90deg, ${design.colors.primary}, ${design.colors.cta})` }} />
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            {macros.map(([name, val, max, color]) => (
+              <div key={name} className="text-center">
+                <div className="h-1.5 rounded-full mb-1" style={{ background: `${design.colors.border}60` }}>
+                  <div className="h-full rounded-full" style={{ width: `${(Number(val)/Number(max))*100}%`, background: color as string }} />
+                </div>
+                <p className="text-xs font-bold" style={{ color: color as string }}>{val}g</p>
+                <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{name}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="flex items-center justify-between mb-3">
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: `${design.colors.text}40` }}>Today's Meals</p>
+          <button className="text-xs font-semibold cursor-pointer" style={{ color: design.colors.primary }}>+ Log Meal</button>
+        </div>
+        <div className="space-y-2">
+          {meals.map(([name, mealType, kcal, macroStr]) => (
+            <div key={name} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: design.colors.border }}>
+              <div className="w-10 h-10 rounded-xl flex-shrink-0 flex items-center justify-center text-xl" style={{ background: `${design.colors.primary}15` }}>🥗</div>
+              <div className="flex-1">
+                <p className="text-sm font-semibold" style={{ color: design.colors.text }}>{name}</p>
+                <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{mealType} · {macroStr}</p>
+              </div>
+              <p className="text-xs font-bold" style={{ color: design.colors.primary }}>{kcal}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function GenericPages({ design, page }: Props) {
   switch (design.id) {
     case 'healthcare':
@@ -1921,6 +2667,34 @@ export function GenericPages({ design, page }: Props) {
       if (page === 'segments') return <AnalyticsSegments design={design} />;
       if (page === 'settings') return <AnalyticsSettings design={design} />;
       return <AnalyticsOverview design={design} />;
+
+    case 'travel-booking':
+      if (page === 'landing') return <TravelLanding design={design} />;
+      if (page === 'search') return <TravelSearch design={design} />;
+      if (page === 'detail') return <TravelDetail design={design} />;
+      if (page === 'checkout') return <TravelCheckout design={design} />;
+      return <TravelLanding design={design} />;
+
+    case 'hr-people':
+      if (page === 'dashboard') return <HRDashboard design={design} />;
+      if (page === 'candidates') return <HRCandidates design={design} />;
+      if (page === 'employee') return <HREmployee design={design} />;
+      if (page === 'onboarding') return <HROnboarding design={design} />;
+      return <HRDashboard design={design} />;
+
+    case 'nft-marketplace':
+      if (page === 'landing') return <NFTLanding design={design} />;
+      if (page === 'explore') return <NFTExplore design={design} />;
+      if (page === 'item') return <NFTItem design={design} />;
+      if (page === 'profile') return <NFTProfile design={design} />;
+      return <NFTLanding design={design} />;
+
+    case 'fitness-app':
+      if (page === 'dashboard') return <FitnessDashboard design={design} />;
+      if (page === 'workout') return <FitnessWorkout design={design} />;
+      if (page === 'plans') return <FitnessPlans design={design} />;
+      if (page === 'nutrition') return <FitnessNutrition design={design} />;
+      return <FitnessDashboard design={design} />;
 
     default:
       return <div className="p-8 text-white/50 text-sm">No demo available for this page.</div>;

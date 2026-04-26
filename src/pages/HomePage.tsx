@@ -36,7 +36,7 @@ export function HomePage() {
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Design Explorer</span>
         </h1>
         <p className="text-white/60 text-base md:text-xl leading-relaxed max-w-2xl mb-8">
-          Browse 67 UI styles, 96 color palettes, 57 font pairings, and 8 fully designed system demos — all powered by the ui-ux-pro-max skill library.
+          Browse 67 UI styles, 96 color palettes, 57 font pairings, and 16 fully designed system demos — all powered by the ui-ux-pro-max skill library.
         </p>
         <div className="flex gap-4 flex-wrap">
           <Link
@@ -99,7 +99,7 @@ export function HomePage() {
             Featured System Designs
           </h2>
           <Link to="/systems" className="text-indigo-400 hover:text-indigo-300 text-sm font-medium transition-colors duration-200 cursor-pointer">
-            View all 8 →
+            View all 16 →
           </Link>
         </div>
         <div className="grid md:grid-cols-3 gap-5">
