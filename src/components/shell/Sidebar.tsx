@@ -62,46 +62,47 @@ export function Sidebar() {
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto scrollbar-none p-3 space-y-1">
         {nav.map(({ label, to, icon }) => (
-          <NavLink
-            key={to}
-            to={to}
-            end={to === '/'}
-            className={({ isActive }) =>
-              cn(
-                'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer',
-                isActive
-                  ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
-              )
-            }
-          >
-            {icon}
-            {label}
-          </NavLink>
-        ))}
+          <div key={to}>
+            <NavLink
+              to={to}
+              end={to === '/'}
+              className={({ isActive }) =>
+                cn(
+                  'flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer',
+                  isActive
+                    ? 'bg-indigo-500/20 text-indigo-300 border border-indigo-500/30'
+                    : 'text-white/60 hover:text-white hover:bg-white/5'
+                )
+              }
+            >
+              {icon}
+              {label}
+            </NavLink>
 
-        {/* Explorer sub-tabs */}
-        {isExplorer && (
-          <div className="mt-2 ml-4 space-y-0.5 border-l border-white/10 pl-3">
-            {explorerTabs.map(({ label, tab }) => {
-              const params = new URLSearchParams(location.search);
-              const currentTab = params.get('tab') || 'styles';
-              const isActive = currentTab === tab;
-              return (
-                <NavLink
-                  key={tab}
-                  to={`/explorer?tab=${tab}`}
-                  className={cn(
-                    'block px-2 py-1.5 rounded-lg text-xs font-medium transition-colors duration-150 cursor-pointer',
-                    isActive ? 'text-indigo-300 bg-indigo-500/10' : 'text-white/40 hover:text-white/70'
-                  )}
-                >
-                  {label}
-                </NavLink>
-              );
-            })}
+            {/* Explorer sub-tabs — rendered inline under Explorer item */}
+            {to === '/explorer' && isExplorer && (
+              <div className="mt-1 ml-4 space-y-0.5 border-l border-white/10 pl-3">
+                {explorerTabs.map(({ label: tabLabel, tab }) => {
+                  const params = new URLSearchParams(location.search);
+                  const currentTab = params.get('tab') || 'styles';
+                  const isActive = currentTab === tab;
+                  return (
+                    <NavLink
+                      key={tab}
+                      to={`/explorer?tab=${tab}`}
+                      className={cn(
+                        'block px-2 py-1.5 rounded-lg text-xs font-medium transition-colors duration-150 cursor-pointer',
+                        isActive ? 'text-indigo-300 bg-indigo-500/10' : 'text-white/40 hover:text-white/70'
+                      )}
+                    >
+                      {tabLabel}
+                    </NavLink>
+                  );
+                })}
+              </div>
+            )}
           </div>
-        )}
+        ))}
       </nav>
 
       {/* Footer stats */}
