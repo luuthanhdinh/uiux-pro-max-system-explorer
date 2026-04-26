@@ -1112,6 +1112,742 @@ function DevPlayground({ design }: { design: SystemDesign }) {
   );
 }
 
+/* ─── SOCIAL MEDIA ─── */
+function SocialFeed({ design }: { design: SystemDesign }) {
+  const stories = ['You', 'alex_k', 'mia.r', 'j_photo', 'surf_co', 'nat_geo'];
+  const posts = [
+    { user: 'alex_k', handle: '@alex_k', time: '2m', content: 'Golden hour hits different from 10,000 feet ✈️', likes: '1.2k', comments: '48', emoji: '🌅' },
+    { user: 'mia.r', handle: '@mia.r', time: '15m', content: 'New studio setup is finally complete. Ready to create 🎨', likes: '843', comments: '32', emoji: '🎨' },
+    { user: 'surf_co', handle: '@surf_co', time: '1h', content: 'Summer collection drops Friday. Are you ready? 🏄', likes: '5.4k', comments: '211', emoji: '🌊' },
+  ];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      {/* Top nav */}
+      <div className="flex items-center justify-between px-4 py-3 border-b sticky top-0 z-10" style={{ borderColor: design.colors.border, background: design.colors.background }}>
+        <span className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.accent})`, WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>Vibe</span>
+        <div className="flex gap-3">
+          {['🔔', '💬'].map((i) => <button key={i} className="text-lg cursor-pointer">{i}</button>)}
+        </div>
+      </div>
+      {/* Stories */}
+      <div className="flex gap-3 px-4 py-3 overflow-x-auto scrollbar-none border-b" style={{ borderColor: design.colors.border }}>
+        {stories.map((s, i) => (
+          <div key={s} className="flex-shrink-0 flex flex-col items-center gap-1">
+            <div className="w-14 h-14 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: i === 0 ? `${design.colors.border}60` : `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.accent})`, color: design.colors.text, padding: '2px' }}>
+              <div className="w-full h-full rounded-full flex items-center justify-center" style={{ background: i === 0 ? design.colors.border : `${design.colors.background}` }}>
+                {s[0].toUpperCase()}
+              </div>
+            </div>
+            <span className="text-[10px]" style={{ color: `${design.colors.text}60` }}>{s}</span>
+          </div>
+        ))}
+      </div>
+      {/* Feed */}
+      <div className="divide-y" style={{ borderColor: design.colors.border }}>
+        {posts.map((p) => (
+          <div key={p.user} className="p-4">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>{p.user[0].toUpperCase()}</div>
+              <div className="flex-1"><p className="text-sm font-semibold" style={{ color: design.colors.text }}>{p.user}</p><p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{p.handle} · {p.time}</p></div>
+              <button className="text-xs cursor-pointer" style={{ color: `${design.colors.text}40` }}>•••</button>
+            </div>
+            <div className="rounded-2xl h-40 flex items-center justify-center text-5xl mb-3" style={{ background: `linear-gradient(135deg, ${design.colors.primary}20, ${design.colors.accent}20)` }}>{p.emoji}</div>
+            <p className="text-sm mb-3" style={{ color: design.colors.text }}>{p.content}</p>
+            <div className="flex gap-5">
+              {[['❤️', p.likes], ['💬', p.comments], ['🔁', ''], ['📤', '']].map(([icon, count]) => (
+                <button key={icon} className="flex items-center gap-1.5 text-xs cursor-pointer" style={{ color: `${design.colors.text}50` }}>{icon} {count}</button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SocialProfile({ design }: { design: SystemDesign }) {
+  const grid = ['🌅', '🎨', '🏄', '🌿', '🎵', '🌆', '✈️', '🍜', '🎭'];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="h-32" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.cta}, ${design.colors.accent})` }} />
+      <div className="px-4 pb-4 -mt-10">
+        <div className="flex items-end justify-between mb-4">
+          <div className="w-20 h-20 rounded-full border-4 flex items-center justify-center text-2xl font-bold" style={{ borderColor: design.colors.background, background: design.colors.border, color: design.colors.text }}>AK</div>
+          <div className="flex gap-2 mt-12">
+            <button className="px-4 py-1.5 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Follow</button>
+            <button className="px-3 py-1.5 rounded-xl text-xs border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>Message</button>
+          </div>
+        </div>
+        <p className="font-bold text-base mb-0.5" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Alex Kim</p>
+        <p className="text-xs mb-2" style={{ color: `${design.colors.text}50` }}>@alex_k · Photographer & Explorer 📸</p>
+        <p className="text-sm mb-4" style={{ color: `${design.colors.text}70` }}>Capturing moments, chasing light. Based in SF 🌉</p>
+        <div className="flex gap-6 mb-5">
+          {[['284', 'Posts'], ['48.2K', 'Followers'], ['612', 'Following']].map(([v, l]) => (
+            <div key={l} className="text-center">
+              <p className="font-bold text-sm" style={{ color: design.colors.text }}>{v}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-0.5">
+          {grid.map((e, i) => (
+            <div key={i} className="aspect-square flex items-center justify-center text-3xl rounded-sm cursor-pointer" style={{ background: `${design.colors.primary}${15 + i * 3}` }}>{e}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SocialExplore({ design }: { design: SystemDesign }) {
+  const trending = [['#GoldenHour', '284K posts'], ['#StreetArt', '192K posts'], ['#TravelVibes', '1.2M posts'], ['#FoodPhotography', '3.4M posts']];
+  const grid = ['🌅', '🎨', '🏙️', '🌿', '🎵', '🍜', '🏄', '✈️', '🌸', '🎭', '🌊', '🦋'];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-4 pt-4 pb-2 sticky top-0 z-10" style={{ background: design.colors.background }}>
+        <div className="flex items-center gap-2 px-3 py-2.5 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}40` }}>
+          <span style={{ color: `${design.colors.text}40` }}>🔍</span>
+          <span className="text-sm" style={{ color: `${design.colors.text}30` }}>Search people, tags, places…</span>
+        </div>
+      </div>
+      <div className="px-4 py-3">
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Trending Now</p>
+        <div className="flex gap-2 overflow-x-auto scrollbar-none mb-5">
+          {trending.map(([tag, count]) => (
+            <div key={tag} className="flex-shrink-0 px-3 py-2 rounded-xl border cursor-pointer" style={{ borderColor: `${design.colors.primary}40`, background: `${design.colors.primary}10` }}>
+              <p className="text-xs font-semibold" style={{ color: design.colors.primary }}>{tag}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{count}</p>
+            </div>
+          ))}
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Discover</p>
+        <div className="grid grid-cols-3 gap-1">
+          {grid.map((e, i) => (
+            <div key={i} className={`flex items-center justify-center text-3xl cursor-pointer rounded-lg ${i === 4 ? 'col-span-2 row-span-2' : ''}`} style={{ background: `linear-gradient(135deg, ${design.colors.primary}${10 + i * 4}, ${design.colors.accent}${10 + i * 3})`, aspectRatio: i === 4 ? undefined : '1', height: i === 4 ? '130px' : undefined }}>{e}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SocialMessages({ design }: { design: SystemDesign }) {
+  const convos = [
+    { user: 'mia.r', msg: 'Love that new shot! 🔥', time: '2m', unread: 3 },
+    { user: 'surf_co', msg: 'Can you collab on Friday?', time: '1h', unread: 0 },
+    { user: 'j_photo', msg: 'Sent you the RAW files', time: '3h', unread: 1 },
+    { user: 'nat_geo', msg: 'Thanks for the submission!', time: '1d', unread: 0 },
+  ];
+  const messages = [
+    { from: 'them', text: 'Love that new shot! 🔥', time: '2:41 PM' },
+    { from: 'them', text: 'What camera did you use?', time: '2:41 PM' },
+    { from: 'me', text: 'Thanks!! Shot on Sony A7IV', time: '2:43 PM' },
+    { from: 'me', text: 'Golden hour was perfect yesterday', time: '2:43 PM' },
+    { from: 'them', text: 'We should shoot together sometime!', time: '2:45 PM' },
+  ];
+  return (
+    <div className="min-h-full flex" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="w-56 flex-shrink-0 border-r" style={{ borderColor: design.colors.border }}>
+        <div className="p-4 border-b" style={{ borderColor: design.colors.border }}>
+          <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Messages</p>
+        </div>
+        {convos.map((c) => (
+          <div key={c.user} className="flex items-center gap-3 px-4 py-3 cursor-pointer border-b" style={{ borderColor: design.colors.border, background: c.user === 'mia.r' ? `${design.colors.primary}10` : 'transparent' }}>
+            <div className="w-9 h-9 rounded-full flex-shrink-0 flex items-center justify-center text-xs font-bold" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>{c.user[0].toUpperCase()}</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-semibold" style={{ color: design.colors.text }}>{c.user}</p>
+                <p className="text-[10px]" style={{ color: `${design.colors.text}30` }}>{c.time}</p>
+              </div>
+              <p className="text-[11px] truncate" style={{ color: `${design.colors.text}50` }}>{c.msg}</p>
+            </div>
+            {c.unread > 0 && <span className="w-4 h-4 rounded-full flex items-center justify-center text-[9px] font-bold flex-shrink-0" style={{ background: design.colors.primary, color: '#fff' }}>{c.unread}</span>}
+          </div>
+        ))}
+      </div>
+      <div className="flex-1 flex flex-col">
+        <div className="flex items-center gap-3 px-4 py-3 border-b" style={{ borderColor: design.colors.border }}>
+          <div className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>M</div>
+          <p className="text-sm font-semibold" style={{ color: design.colors.text }}>mia.r</p>
+        </div>
+        <div className="flex-1 p-4 space-y-2 overflow-y-auto">
+          {messages.map((m, i) => (
+            <div key={i} className={`flex ${m.from === 'me' ? 'justify-end' : 'justify-start'}`}>
+              <div className="max-w-[60%] px-3 py-2 rounded-2xl text-xs" style={{ background: m.from === 'me' ? design.colors.primary : `${design.colors.border}60`, color: m.from === 'me' ? '#fff' : design.colors.text }}>
+                {m.text}
+                <p className="text-[9px] mt-1 opacity-60">{m.time}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 px-4 py-3 border-t" style={{ borderColor: design.colors.border }}>
+          <div className="flex-1 px-3 py-2 rounded-2xl text-xs border" style={{ borderColor: design.colors.border, background: `${design.colors.border}30`, color: `${design.colors.text}30` }}>Message mia.r…</div>
+          <button className="w-8 h-8 rounded-full flex items-center justify-center cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>↑</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── REAL ESTATE ─── */
+function RealEstateLanding({ design }: { design: SystemDesign }) {
+  const listings = [['Modern Loft, SF', '$1,250,000', '2 bd · 2 ba · 1,100 sqft', '🏢'], ['Victorian Home', '$2,480,000', '4 bd · 3 ba · 2,800 sqft', '🏠'], ['Beach Condo', '$890,000', '1 bd · 1 ba · 680 sqft', '🌊']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-8 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>Estatum</span>
+        <div className="flex gap-6 text-sm" style={{ color: `${design.colors.text}60` }}>
+          {['Buy', 'Rent', 'Sell', 'Agents'].map((l) => <a key={l} className="cursor-pointer hover:opacity-80">{l}</a>)}
+        </div>
+        <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>List Property</button>
+      </nav>
+      <div className="px-8 py-12">
+        <h1 className="text-4xl font-bold leading-tight mb-4 max-w-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Find your<br /><span style={{ color: design.colors.primary }}>perfect home.</span></h1>
+        <div className="flex gap-2 max-w-xl mb-12 p-2 rounded-2xl border" style={{ borderColor: design.colors.border, background: '#fff' }}>
+          {[['📍', 'City, neighborhood…'], ['🏠', 'Property type'], ['💰', 'Price range']].map(([icon, ph]) => (
+            <div key={ph} className="flex-1 flex items-center gap-2 px-3 py-2 rounded-xl border text-xs" style={{ borderColor: design.colors.border, color: `${design.colors.text}40` }}>{icon} {ph}</div>
+          ))}
+          <button className="px-5 py-2 rounded-xl text-xs font-bold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Search</button>
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: `${design.colors.text}40` }}>Featured Listings</p>
+        <div className="grid grid-cols-3 gap-4">
+          {listings.map(([name, price, details, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: design.colors.border }}>
+              <div className="h-32 flex items-center justify-center text-5xl" style={{ background: `${design.colors.primary}08` }}>{icon}</div>
+              <div className="p-4">
+                <p className="font-semibold text-sm mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{name}</p>
+                <p className="text-xs mb-1" style={{ color: `${design.colors.text}50` }}>{details}</p>
+                <p className="font-bold" style={{ color: design.colors.primary }}>{price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RealEstateListing({ design }: { design: SystemDesign }) {
+  const properties = [['Modern Loft, SOMA', '$1,250,000', '2 bd · 2 ba · 1,100 sqft', 'For Sale', '🏢'], ['Victorian Home, Noe', '$2,480,000', '4 bd · 3 ba · 2,800 sqft', 'For Sale', '🏠'], ['Beach Condo, Pacifica', '$890,000', '1 bd · 1 ba · 680 sqft', 'For Rent', '🌊'], ['Penthouse, FiDi', '$4,200,000', '3 bd · 3.5 ba · 3,200 sqft', 'For Sale', '🏙️'], ['Studio, Mission', '$3,200/mo', 'Studio · 1 ba · 490 sqft', 'For Rent', '🌆'], ['Townhouse, Castro', '$1,850,000', '3 bd · 2.5 ba · 1,900 sqft', 'For Sale', '🏡']];
+  return (
+    <div className="flex min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <aside className="w-52 flex-shrink-0 border-r p-4" style={{ borderColor: design.colors.border }}>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Filters</p>
+        {([['Type', ['Any', 'House', 'Condo', 'Apartment']], ['Status', ['For Sale', 'For Rent']], ['Beds', ['Any', '1+', '2+', '3+']]] as [string, string[]][]).map(([label, opts]) => (
+          <div key={label} className="mb-4">
+            <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>{label}</p>
+            <div className="flex flex-wrap gap-1">
+              {(opts as string[]).map((o, i) => (
+                <button key={o} className="px-2 py-1 rounded-lg text-[10px] cursor-pointer border" style={{ background: i === 0 ? design.colors.primary : 'transparent', color: i === 0 ? '#fff' : `${design.colors.text}50`, borderColor: i === 0 ? design.colors.primary : design.colors.border }}>{o}</button>
+              ))}
+            </div>
+          </div>
+        ))}
+        <div className="mt-4 pt-4 border-t" style={{ borderColor: design.colors.border }}>
+          <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Max Price</p>
+          <div className="h-1.5 rounded-full mb-1" style={{ background: design.colors.border }}><div className="h-full rounded-full w-3/5" style={{ background: design.colors.primary }} /></div>
+          <div className="flex justify-between text-[10px]" style={{ color: `${design.colors.text}40` }}><span>$0</span><span>$5M+</span></div>
+        </div>
+      </aside>
+      <div className="flex-1 p-5">
+        <div className="flex items-center justify-between mb-4">
+          <p className="text-sm" style={{ color: `${design.colors.text}50` }}>{properties.length} properties found</p>
+          <select className="text-xs border rounded-lg px-2 py-1 cursor-pointer" style={{ borderColor: design.colors.border, color: design.colors.text, background: design.colors.background }}>
+            <option>Sort: Newest</option>
+          </select>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          {properties.map(([name, price, details, status, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden cursor-pointer" style={{ borderColor: design.colors.border }}>
+              <div className="h-28 flex items-center justify-center text-4xl relative" style={{ background: `${design.colors.primary}08` }}>
+                {icon}
+                <span className="absolute top-2 right-2 text-[10px] px-2 py-0.5 rounded-full font-semibold" style={{ background: `${design.colors.cta}20`, color: design.colors.cta }}>{status}</span>
+              </div>
+              <div className="p-3">
+                <p className="font-semibold text-sm mb-0.5" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{name}</p>
+                <p className="text-[11px] mb-1" style={{ color: `${design.colors.text}50` }}>{details}</p>
+                <p className="font-bold text-sm" style={{ color: design.colors.primary }}>{price}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RealEstateDetail({ design }: { design: SystemDesign }) {
+  const features = ['Central AC/Heat', 'In-unit Laundry', 'Rooftop Deck', 'Pet Friendly', 'Parking Included', 'EV Charging'];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="h-56 flex items-center justify-center text-7xl" style={{ background: `linear-gradient(135deg, ${design.colors.primary}10, ${design.colors.secondary}10)` }}>🏢</div>
+      <div className="px-8 py-6">
+        <div className="flex items-start justify-between mb-6">
+          <div>
+            <h1 className="text-2xl font-bold mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Modern Loft, SOMA</h1>
+            <p className="text-sm" style={{ color: `${design.colors.text}50` }}>📍 123 Brannan St, San Francisco, CA 94107</p>
+          </div>
+          <div className="text-right">
+            <p className="text-2xl font-bold" style={{ color: design.colors.primary }}>$1,250,000</p>
+            <p className="text-xs" style={{ color: `${design.colors.text}40` }}>Est. $5,800/mo</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-4 gap-3 mb-6">
+          {[['🛏', '2', 'Beds'], ['🚿', '2', 'Baths'], ['📐', '1,100', 'sqft'], ['🏗', '2019', 'Built']].map(([icon, v, l]) => (
+            <div key={l} className="text-center p-3 rounded-xl border" style={{ borderColor: design.colors.border }}>
+              <p className="text-lg">{icon}</p>
+              <p className="font-bold text-sm" style={{ color: design.colors.text }}>{v}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Features</p>
+            <div className="flex flex-wrap gap-2 mb-6">
+              {features.map((f) => <span key={f} className="text-xs px-2.5 py-1 rounded-xl border" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>{f}</span>)}
+            </div>
+            <div className="h-28 rounded-2xl flex items-center justify-center text-xs border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06`, color: `${design.colors.text}40` }}>🗺 Map View</div>
+          </div>
+          <div className="p-4 rounded-2xl border" style={{ borderColor: design.colors.border }}>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-full flex items-center justify-center font-bold" style={{ background: `${design.colors.primary}20`, color: design.colors.primary }}>SL</div>
+              <div><p className="font-semibold text-sm" style={{ color: design.colors.text }}>Sarah Lee</p><p className="text-xs" style={{ color: `${design.colors.text}50` }}>Licensed Agent · DRE #01234567</p></div>
+            </div>
+            <p className="text-xs mb-4" style={{ color: `${design.colors.text}50` }}>Specializing in SOMA and Mission Bay properties for 12+ years.</p>
+            <div className="space-y-2">
+              <button className="w-full py-2.5 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Schedule Tour</button>
+              <button className="w-full py-2.5 rounded-xl text-xs font-semibold cursor-pointer border" style={{ borderColor: design.colors.border, color: design.colors.text }}>Contact Agent</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RealEstateMortgage({ design }: { design: SystemDesign }) {
+  const breakdown = [['Principal & Interest', '$5,342'], ['Property Tax', '$1,042'], ['Home Insurance', '$167'], ['HOA Fees', '$250']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-8 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-lg" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>Estatum</span>
+      </nav>
+      <div className="px-8 py-6 max-w-2xl">
+        <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Mortgage Calculator</h2>
+        <p className="text-sm mb-6" style={{ color: `${design.colors.text}50` }}>Estimate your monthly payment based on loan details.</p>
+        <div className="space-y-5 mb-8">
+          {[['Home Price', '$1,250,000', 75], ['Down Payment (20%)', '$250,000', 20], ['Loan Term', '30 Years', 60], ['Interest Rate', '6.75%', 68]].map(([label, val, pct]) => (
+            <div key={label}>
+              <div className="flex justify-between mb-1">
+                <p className="text-xs font-semibold" style={{ color: `${design.colors.text}60` }}>{label}</p>
+                <p className="text-xs font-bold" style={{ color: design.colors.primary }}>{val}</p>
+              </div>
+              <div className="h-2 rounded-full" style={{ background: `${design.colors.border}60` }}>
+                <div className="h-full rounded-full" style={{ width: `${pct}%`, background: `linear-gradient(90deg, ${design.colors.primary}, ${design.colors.secondary})` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="p-6 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06` }}>
+          <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: `${design.colors.text}40` }}>Monthly Breakdown</p>
+          <p className="text-4xl font-bold mb-4" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>$6,801<span className="text-lg font-normal" style={{ color: `${design.colors.text}40` }}>/mo</span></p>
+          <div className="space-y-2">
+            {breakdown.map(([label, amount]) => (
+              <div key={label} className="flex justify-between text-sm">
+                <span style={{ color: `${design.colors.text}60` }}>{label}</span>
+                <span className="font-semibold" style={{ color: design.colors.text }}>{amount}</span>
+              </div>
+            ))}
+          </div>
+          <button className="w-full mt-5 py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Get Pre-Approved →</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── RESTAURANT ─── */
+function RestaurantLanding({ design }: { design: SystemDesign }) {
+  const dishes = [['Truffle Risotto', '$32', '⭐ 4.9', '🍚'], ['Wagyu Steak', '$68', '⭐ 4.8', '🥩'], ['Lobster Bisque', '$24', '⭐ 4.9', '🦞']];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <nav className="flex items-center justify-between px-8 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-xl italic" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>La Maison</span>
+        <div className="flex gap-6 text-sm" style={{ color: `${design.colors.text}60` }}>
+          {['Menu', 'Reserve', 'Order', 'About'].map((l) => <a key={l} className="cursor-pointer hover:opacity-80">{l}</a>)}
+        </div>
+        <button className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Reserve a Table</button>
+      </nav>
+      <div className="px-8 py-10">
+        <div className="max-w-lg mb-10">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: `${design.colors.primary}15`, color: design.colors.primary }}>Est. 1998 · San Francisco</span>
+          <h1 className="text-4xl font-bold leading-tight mb-4" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>
+            Where every meal<br /><span style={{ color: design.colors.primary }}>tells a story.</span>
+          </h1>
+          <p className="text-sm leading-relaxed mb-6" style={{ color: `${design.colors.text}60` }}>French-inspired cuisine with locally sourced ingredients. Open for dinner Tuesday through Sunday.</p>
+          <div className="flex gap-3">
+            <button className="px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Reserve Tonight</button>
+            <button className="px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer border" style={{ borderColor: design.colors.border, color: design.colors.text }}>View Menu</button>
+          </div>
+        </div>
+        <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: `${design.colors.text}40` }}>Chef's Signatures</p>
+        <div className="grid grid-cols-3 gap-4">
+          {dishes.map(([name, price, rating, icon]) => (
+            <div key={name} className="rounded-2xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+              <div className="h-32 flex items-center justify-center text-5xl" style={{ background: `${design.colors.primary}08` }}>{icon}</div>
+              <div className="p-4">
+                <p className="font-semibold text-sm mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{name}</p>
+                <div className="flex items-center justify-between">
+                  <p className="font-bold" style={{ color: design.colors.primary }}>{price}</p>
+                  <p className="text-xs" style={{ color: `${design.colors.text}50` }}>{rating}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-4 mt-8 p-4 rounded-2xl border" style={{ borderColor: design.colors.border }}>
+          {[['🕐', 'Hours', 'Tue–Sun 5pm–11pm'], ['📍', 'Location', '42 Rue de Paris, SF'], ['📞', 'Reservations', '+1 (415) 555-0192']].map(([icon, label, val]) => (
+            <div key={label} className="text-center">
+              <p className="text-xl mb-1">{icon}</p>
+              <p className="text-xs font-semibold" style={{ color: `${design.colors.text}50` }}>{label}</p>
+              <p className="text-xs" style={{ color: design.colors.text }}>{val}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RestaurantMenu({ design }: { design: SystemDesign }) {
+  const categories = ['Starters', 'Mains', 'Desserts', 'Drinks'];
+  const items = {
+    Starters: [['Foie Gras Torchon', 'With brioche and fig jam', '$22'], ['Oysters Rockefeller', 'Six oysters, spinach, Pernod', '$28'], ['Burrata Salad', 'Heirloom tomato, basil oil', '$18']],
+    Mains: [['Wagyu Beef Tenderloin', '8oz with truffle jus and dauphinoise', '$68'], ['Lobster Thermidor', 'Half lobster, gratin, cognac sauce', '$58'], ['Duck Confit', 'Slow-cooked, lentils, orange reduction', '$42']],
+    Desserts: [['Crème Brûlée', 'Classic vanilla, caramelized crust', '$14'], ['Chocolate Fondant', 'Warm center, vanilla ice cream', '$16'], ['Tarte Tatin', 'Caramelized apple, crème fraîche', '$12']],
+    Drinks: [['Château Margaux 2018', 'Bordeaux, France · Bottle', '$220'], ['Krug Grande Cuvée', 'Champagne · Glass', '$48'], ['Lavender Spritz', 'House-made, non-alcoholic', '$14']],
+  };
+  const activeItems = items['Mains'];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-8 py-6">
+        <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Our Menu</h2>
+        <div className="flex gap-2 mb-6">
+          {categories.map((c) => (
+            <button key={c} className="px-4 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: c === 'Mains' ? design.colors.primary : `${design.colors.border}40`, color: c === 'Mains' ? '#fff' : `${design.colors.text}60` }}>{c}</button>
+          ))}
+        </div>
+        <div className="space-y-3">
+          {activeItems.map(([name, desc, price]) => (
+            <div key={name} className="flex items-center justify-between p-4 rounded-2xl border" style={{ borderColor: design.colors.border }}>
+              <div className="flex-1">
+                <p className="font-semibold text-sm mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{name}</p>
+                <p className="text-xs" style={{ color: `${design.colors.text}50` }}>{desc}</p>
+              </div>
+              <div className="flex items-center gap-3 ml-4">
+                <p className="font-bold" style={{ color: design.colors.primary }}>{price}</p>
+                <button className="w-7 h-7 rounded-lg flex items-center justify-center text-sm font-bold cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>+</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RestaurantReservation({ design }: { design: SystemDesign }) {
+  const times = ['5:00 PM', '5:30 PM', '6:00 PM', '6:30 PM', '7:00 PM', '7:30 PM', '8:00 PM', '8:30 PM'];
+  const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const dates = [26, 27, 28, 29, 30, 1, 2];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-8 py-6 max-w-xl">
+        <h2 className="text-2xl font-bold mb-6" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Reserve a Table</h2>
+        <div className="space-y-5">
+          <div>
+            <p className="text-xs font-semibold mb-3" style={{ color: `${design.colors.text}60` }}>Select Date</p>
+            <div className="grid grid-cols-7 gap-1 text-center">
+              {days.map((d) => <p key={d} className="text-[10px] font-semibold py-1" style={{ color: `${design.colors.text}40` }}>{d}</p>)}
+              {dates.map((d, i) => (
+                <button key={d} className="py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: d === 29 ? design.colors.primary : 'transparent', color: d === 29 ? '#fff' : i >= 5 ? `${design.colors.text}30` : design.colors.text }}>{d}</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Party Size</p>
+            <div className="flex gap-2">
+              {[1, 2, 3, 4, 5, 6, '7+'].map((n) => (
+                <button key={n} className="w-9 h-9 rounded-xl text-xs font-semibold cursor-pointer border" style={{ background: n === 2 ? design.colors.primary : 'transparent', color: n === 2 ? '#fff' : `${design.colors.text}60`, borderColor: n === 2 ? design.colors.primary : design.colors.border }}>{n}</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>Available Times</p>
+            <div className="grid grid-cols-4 gap-2">
+              {times.map((t) => (
+                <button key={t} className="py-2 rounded-xl text-xs font-semibold cursor-pointer border" style={{ background: t === '7:00 PM' ? design.colors.primary : 'transparent', color: t === '7:00 PM' ? '#fff' : `${design.colors.text}60`, borderColor: t === '7:00 PM' ? design.colors.primary : design.colors.border }}>{t}</button>
+              ))}
+            </div>
+          </div>
+          <button className="w-full py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Confirm Reservation</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function RestaurantOrder({ design }: { design: SystemDesign }) {
+  const cart = [['Wagyu Beef Tenderloin', '$68', 1, '🥩'], ['Lobster Bisque', '$24', 2, '🦞'], ['Crème Brûlée', '$14', 1, '🍮']];
+  const subtotal = 130;
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="px-8 py-6">
+        <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Order Online</h2>
+        <div className="flex gap-2 mb-6">
+          {['Delivery', 'Pickup'].map((o) => (
+            <button key={o} className="px-5 py-2 rounded-xl text-xs font-semibold cursor-pointer" style={{ background: o === 'Delivery' ? design.colors.primary : `${design.colors.border}40`, color: o === 'Delivery' ? '#fff' : `${design.colors.text}50` }}>{o}</button>
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-6">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Your Order</p>
+            <div className="space-y-3">
+              {cart.map(([name, price, qty, icon]) => (
+                <div key={name} className="flex items-center gap-3 p-3 rounded-2xl border" style={{ borderColor: design.colors.border }}>
+                  <span className="text-2xl">{icon}</span>
+                  <div className="flex-1">
+                    <p className="text-xs font-semibold" style={{ color: design.colors.text }}>{name}</p>
+                    <p className="text-xs" style={{ color: `${design.colors.text}50` }}>{price}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <button className="w-6 h-6 rounded-lg flex items-center justify-center text-xs border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}50` }}>−</button>
+                    <span className="text-xs font-semibold w-4 text-center" style={{ color: design.colors.text }}>{qty}</span>
+                    <button className="w-6 h-6 rounded-lg flex items-center justify-center text-xs cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>+</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="p-4 rounded-2xl border h-fit" style={{ borderColor: design.colors.border, background: `${design.colors.primary}04` }}>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-4" style={{ color: `${design.colors.text}40` }}>Order Summary</p>
+            <div className="space-y-2 mb-4">
+              {[['Subtotal', `$${subtotal}`], ['Delivery Fee', '$5'], ['Tax (8.5%)', '$11.05']].map(([l, v]) => (
+                <div key={l} className="flex justify-between text-xs"><span style={{ color: `${design.colors.text}60` }}>{l}</span><span style={{ color: design.colors.text }}>{v}</span></div>
+              ))}
+              <div className="flex justify-between font-bold pt-2 border-t text-sm" style={{ borderColor: design.colors.border }}>
+                <span style={{ color: design.colors.text }}>Total</span><span style={{ color: design.colors.primary }}>$146.05</span>
+              </div>
+            </div>
+            <button className="w-full py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Place Order →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── ANALYTICS DASHBOARD ─── */
+function AnalyticsOverview({ design }: { design: SystemDesign }) {
+  const kpis = [['Total Users', '248,391', '+12.4%'], ['Sessions', '1.2M', '+8.7%'], ['Conversion', '3.48%', '+0.3%'], ['Revenue', '$84,210', '+18.2%']];
+  const sources = [['Organic Search', '42%', 104312], ['Direct', '28%', 69549], ['Social Media', '18%', 44710], ['Referral', '12%', 29807]];
+  const weeks = [40, 65, 55, 80, 70, 90, 75, 95, 85, 100, 88, 72];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>DataPulse</span>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border text-xs" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>Last 30 days ▾</div>
+      </div>
+      <div className="p-6">
+        <div className="grid grid-cols-4 gap-3 mb-6">
+          {kpis.map(([label, value, change]) => (
+            <div key={label} className="p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}40` }}>
+              <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: `${design.colors.text}40` }}>{label}</p>
+              <p className="text-xl font-bold mb-1" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>{value}</p>
+              <span className="text-[10px] font-semibold px-1.5 py-0.5 rounded" style={{ background: `${design.colors.primary}20`, color: design.colors.primary }}>{change}</span>
+            </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-3 gap-4">
+          <div className="col-span-2 p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+            <p className="text-xs font-semibold mb-4" style={{ color: `${design.colors.text}60` }}>Sessions (Last 12 Weeks)</p>
+            <div className="flex items-end gap-1 h-24">
+              {weeks.map((h, i) => (
+                <div key={i} className="flex-1 rounded-t" style={{ height: `${h}%`, background: i === weeks.length - 1 ? design.colors.primary : `${design.colors.primary}40` }} />
+              ))}
+            </div>
+          </div>
+          <div className="p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+            <p className="text-xs font-semibold mb-4" style={{ color: `${design.colors.text}60` }}>Top Sources</p>
+            <div className="space-y-3">
+              {sources.map(([src, pct]) => (
+                <div key={src}>
+                  <div className="flex justify-between text-[11px] mb-1">
+                    <span style={{ color: `${design.colors.text}70` }}>{src}</span>
+                    <span style={{ color: design.colors.primary }}>{pct}</span>
+                  </div>
+                  <div className="h-1 rounded-full" style={{ background: `${design.colors.border}60` }}>
+                    <div className="h-full rounded-full" style={{ width: pct, background: design.colors.primary }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsReports({ design }: { design: SystemDesign }) {
+  const bars = [120, 85, 140, 95, 160, 110, 130, 75, 150, 100, 145, 90];
+  const area = [30, 45, 40, 60, 55, 75, 65, 80, 70, 90, 85, 100];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>DataPulse</span>
+      </div>
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="font-bold text-base" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Reports</h2>
+          <div className="flex gap-2">
+            {['7D', '30D', '90D', '1Y'].map((r) => (
+              <button key={r} className="px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer" style={{ background: r === '30D' ? design.colors.primary : `${design.colors.border}40`, color: r === '30D' ? '#fff' : `${design.colors.text}50` }}>{r}</button>
+            ))}
+            <button className="px-3 py-1.5 rounded-lg text-xs border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}50` }}>↓ Export</button>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+            <p className="text-xs font-semibold mb-1" style={{ color: `${design.colors.text}60` }}>Revenue</p>
+            <p className="text-xl font-bold mb-4" style={{ color: design.colors.primary }}>$84,210</p>
+            <div className="flex items-end gap-1 h-20">
+              {bars.map((h, i) => (
+                <div key={i} className="flex-1 rounded-t" style={{ height: `${(h / 160) * 100}%`, background: i === 5 ? design.colors.cta : `${design.colors.primary}50` }} />
+              ))}
+            </div>
+          </div>
+          <div className="p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+            <p className="text-xs font-semibold mb-1" style={{ color: `${design.colors.text}60` }}>User Growth</p>
+            <p className="text-xl font-bold mb-4" style={{ color: design.colors.accent }}>+12.4%</p>
+            <div className="flex items-end gap-0.5 h-20">
+              {area.map((h, i) => (
+                <div key={i} className="flex-1 rounded-sm" style={{ height: `${h}%`, background: `linear-gradient(to top, ${design.colors.accent}80, ${design.colors.accent}20)` }} />
+              ))}
+            </div>
+          </div>
+          <div className="col-span-2 p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+            <p className="text-xs font-semibold mb-3" style={{ color: `${design.colors.text}60` }}>Report Breakdown</p>
+            <div className="grid grid-cols-4 gap-3">
+              {[['New Users', '18,420', design.colors.primary], ['Returning', '229,971', design.colors.secondary], ['Bounce Rate', '34.2%', design.colors.cta], ['Avg. Session', '4m 12s', design.colors.accent]].map(([l, v, c]) => (
+                <div key={l} className="text-center p-3 rounded-lg" style={{ background: `${c}10` }}>
+                  <p className="text-lg font-bold" style={{ color: c, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{v}</p>
+                  <p className="text-[10px] mt-1" style={{ color: `${design.colors.text}40` }}>{l}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsSegments({ design }: { design: SystemDesign }) {
+  const segments = [['Power Users', '12,840', '5.2%', 95], ['Regular Users', '84,210', '33.9%', 70], ['Casual Users', '98,450', '39.6%', 50], ['New Users', '52,891', '21.3%', 30]];
+  const funnel: [string, number, number][] = [['Visited', 248391, 100], ['Signed Up', 42800, 17], ['Activated', 18200, 7], ['Converted', 8640, 3]];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>DataPulse</span>
+      </div>
+      <div className="p-6">
+        <h2 className="font-bold text-base mb-5" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Audience Segments</h2>
+        <div className="grid grid-cols-2 gap-5">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Segment Breakdown</p>
+            <div className="space-y-3">
+              {segments.map(([name, users, pct, bar]) => (
+                <div key={name} className="p-3 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+                  <div className="flex justify-between mb-1">
+                    <span className="text-xs font-semibold" style={{ color: design.colors.text }}>{name}</span>
+                    <span className="text-xs" style={{ color: design.colors.primary }}>{pct}</span>
+                  </div>
+                  <p className="text-[10px] mb-2" style={{ color: `${design.colors.text}40` }}>{users} users</p>
+                  <div className="h-1.5 rounded-full" style={{ background: `${design.colors.border}60` }}>
+                    <div className="h-full rounded-full" style={{ width: `${bar}%`, background: `linear-gradient(90deg, ${design.colors.primary}, ${design.colors.secondary})` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Conversion Funnel</p>
+            <div className="space-y-2">
+              {funnel.map(([stage, count, pct], i) => (
+                <div key={stage} className="relative">
+                  <div className="flex justify-between text-xs mb-1">
+                    <span style={{ color: `${design.colors.text}70` }}>{stage}</span>
+                    <span className="font-mono" style={{ color: design.colors.primary }}>{count.toLocaleString()}</span>
+                  </div>
+                  <div className="h-8 rounded-lg flex items-center px-3" style={{ width: `${pct + 10}%`, background: `${design.colors.primary}${30 - i * 6}`, minWidth: '40%' }}>
+                    <span className="text-[10px] font-semibold" style={{ color: design.colors.text }}>{pct}%</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function AnalyticsSettings({ design }: { design: SystemDesign }) {
+  const sources: [string, string, boolean][] = [['Google Analytics 4', 'analytics.google.com', true], ['Mixpanel', 'mixpanel.com', true], ['Salesforce CRM', 'salesforce.com', false], ['Stripe Payments', 'stripe.com', true], ['HubSpot', 'hubspot.com', false]];
+  return (
+    <div className="min-h-full" style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <div className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border }}>
+        <span className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.primary }}>DataPulse</span>
+      </div>
+      <div className="p-6 max-w-2xl">
+        <h2 className="font-bold text-base mb-5" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Settings</h2>
+        <div className="space-y-5">
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>Data Sources</p>
+            <div className="rounded-xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+              {sources.map(([name, domain, connected]) => (
+                <div key={name} className="flex items-center justify-between px-4 py-3 border-b last:border-0" style={{ borderColor: design.colors.border }}>
+                  <div>
+                    <p className="text-sm font-semibold" style={{ color: design.colors.text }}>{name}</p>
+                    <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{domain}</p>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[10px] px-2 py-1 rounded-full font-semibold" style={{ background: connected ? `${design.colors.primary}20` : `${design.colors.border}60`, color: connected ? design.colors.primary : `${design.colors.text}40` }}>{connected ? 'Connected' : 'Disconnected'}</span>
+                    <button className="text-xs cursor-pointer" style={{ color: connected ? `${design.colors.text}40` : design.colors.cta }}>{connected ? 'Disconnect' : 'Connect'}</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div>
+            <p className="text-xs font-semibold uppercase tracking-wider mb-3" style={{ color: `${design.colors.text}40` }}>API Access</p>
+            <div className="p-4 rounded-xl border" style={{ borderColor: design.colors.border, background: `${design.colors.border}20` }}>
+              <p className="text-xs font-semibold mb-2" style={{ color: `${design.colors.text}60` }}>API Key</p>
+              <div className="flex gap-2">
+                <div className="flex-1 h-9 rounded-lg border px-3 flex items-center font-mono text-xs" style={{ borderColor: design.colors.border, color: `${design.colors.text}50`, background: `${design.colors.background}80` }}>dp_live_••••••••••••••••••••••••••••</div>
+                <button className="px-3 py-2 rounded-lg text-xs border cursor-pointer" style={{ borderColor: design.colors.border, color: `${design.colors.text}50` }}>Copy</button>
+                <button className="px-3 py-2 rounded-lg text-xs cursor-pointer" style={{ background: design.colors.cta, color: '#fff' }}>Regenerate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function GenericPages({ design, page }: Props) {
   switch (design.id) {
     case 'healthcare':
@@ -1157,6 +1893,34 @@ export function GenericPages({ design, page }: Props) {
       if (page === 'changelog') return <DevChangelog design={design} />;
       if (page === 'playground') return <DevPlayground design={design} />;
       return <DevLanding design={design} />;
+
+    case 'social-media':
+      if (page === 'feed') return <SocialFeed design={design} />;
+      if (page === 'profile') return <SocialProfile design={design} />;
+      if (page === 'explore') return <SocialExplore design={design} />;
+      if (page === 'messages') return <SocialMessages design={design} />;
+      return <SocialFeed design={design} />;
+
+    case 'real-estate':
+      if (page === 'landing') return <RealEstateLanding design={design} />;
+      if (page === 'listing') return <RealEstateListing design={design} />;
+      if (page === 'detail') return <RealEstateDetail design={design} />;
+      if (page === 'mortgage') return <RealEstateMortgage design={design} />;
+      return <RealEstateLanding design={design} />;
+
+    case 'restaurant':
+      if (page === 'landing') return <RestaurantLanding design={design} />;
+      if (page === 'menu') return <RestaurantMenu design={design} />;
+      if (page === 'reservation') return <RestaurantReservation design={design} />;
+      if (page === 'order') return <RestaurantOrder design={design} />;
+      return <RestaurantLanding design={design} />;
+
+    case 'analytics-dashboard':
+      if (page === 'overview') return <AnalyticsOverview design={design} />;
+      if (page === 'reports') return <AnalyticsReports design={design} />;
+      if (page === 'segments') return <AnalyticsSegments design={design} />;
+      if (page === 'settings') return <AnalyticsSettings design={design} />;
+      return <AnalyticsOverview design={design} />;
 
     default:
       return <div className="p-8 text-white/50 text-sm">No demo available for this page.</div>;
