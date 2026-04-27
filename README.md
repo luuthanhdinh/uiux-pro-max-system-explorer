@@ -1,7 +1,8 @@
 # UI/UX Pro Max System Explorer
 
-An interactive React app for visualizing the [`uiux-pro-max-skill`](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) design library. Browse 67 UI styles, 96 color palettes, 57 font pairings, 25 chart types, and 99 UX guidelines — plus 8 fully designed multi-page system demos with live design token previews and navigable page flows.
+An interactive React app for visualizing the [`uiux-pro-max-skill`](https://github.com/nextlevelbuilder/ui-ux-pro-max-skill) design library. Browse 67 UI styles, 96 color palettes, 57 font pairings, 25 chart types, and 99 UX guidelines — plus 16 fully designed multi-page system demos with live design token previews, navigable page flows, and a step-by-step Design Builder.
 
+[![Live Demo](https://img.shields.io/badge/Live_Demo-Vercel-000?logo=vercel&logoColor=white)](https://project-nht8g.vercel.app/)
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF?logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
@@ -23,8 +24,20 @@ Browse all design assets from the skill library across 6 tabs:
 | **UX Guidelines** | 99 best practices organized by priority |
 | **Products** | 96 product type recommendations |
 
+### Design Builder
+A step-by-step wizard to create a custom system design from the library:
+
+- **Step 1** — Pick a product type (drives all recommendations)
+- **Step 2** — Choose a visual style (ranked by product fit + ★ Top pick badges)
+- **Step 3** — Pick a color palette (matched to product + style)
+- **Step 4** — Choose typography (ranked by style keywords)
+- **Step 5** — Select pages + name your design
+- **Step 6** — Live preview with real page content + export as Markdown
+
+Steps 2–4 are skippable. Completed steps are clickable for non-linear editing.
+
 ### System Designs
-8 fully designed multi-page system demos — each with a design token panel (colors, typography, style), a browser-frame preview, and multiple navigable pages:
+16 fully designed multi-page system demos — each with a design token panel (colors, typography, style), a browser-frame preview, and navigable pages. Every system can be exported as a Markdown design spec for use with Claude.
 
 | System | Style | Pages |
 |--------|-------|-------|
@@ -36,6 +49,14 @@ Browse all design assets from the skill library across 6 tabs:
 | **Gaming Platform** | 3D Hyperrealism + Retro-Futurism | Landing, Leaderboard, Profile, Store |
 | **Sustainability ESG** | Organic Biophilic + Minimalism | Landing, Dashboard, Report, Goals |
 | **Developer API Docs** | Minimalism + Swiss Style | Landing, Docs, API Reference, Changelog, Playground |
+| **Social Media App** | Gradient Glass + Bold Color | Feed, Profile, Explore, Messages |
+| **Real Estate Platform** | Editorial + Clean Grid | Landing, Listing, Detail, Mortgage |
+| **Restaurant & Food** | Warm Organic + Claymorphism | Landing, Menu, Reservation, Order |
+| **Analytics Dashboard** | Data-Dense + Brutalism | Overview, Reports, Segments, Settings |
+| **Travel & Booking** | Immersive Editorial + Glassmorphism | Landing, Search, Detail, Checkout |
+| **HR & People Ops** | Soft UI + Minimalism | Dashboard, Candidates, Employee, Onboarding |
+| **NFT Marketplace** | Dark Neon + Glassmorphism | Landing, Explore, Item, Profile |
+| **Fitness & Wellness** | Energetic Bold + Dark Mode | Dashboard, Workout, Plans, Nutrition |
 
 ---
 
@@ -75,20 +96,23 @@ npm run preview
 src/
 ├── data/
 │   ├── types.ts              # TypeScript interfaces for all CSV row shapes
-│   └── systemDesigns.ts      # 8 static curated system design configs
+│   └── systemDesigns.ts      # 16 static curated system design configs
 ├── hooks/
 │   └── useCsvData.ts         # Generic fetch + Papa Parse hook
-├── lib/utils.ts              # cn(), hexToRgb(), getContrastColor()
+├── lib/utils.ts              # cn(), hexToRgb(), getContrastColor(), generateDesignSystemMd()
 ├── components/
 │   ├── shell/                # AppShell, Sidebar
 │   ├── ui/                   # Badge, Spinner
-│   ├── explorer/             # Tab-level search/filter components
+│   ├── explorer/             # SearchBar, StylesTab, ColorsTab, TypographyTab, ChartsTab, UXTab, ProductsTab
+│   ├── home/                 # HeroSection, StatsGrid, ExplorerLinks, FeaturedDesigns
 │   └── system/
+│       ├── SystemCard.tsx
 │       ├── PageTabBar.tsx
-│       └── demo-pages/       # FintechPages, AISaaSPages, GenericPages
+│       └── demo-pages/       # FintechPages, AISaaSPages, GenericPages (+ custom builder pages)
 └── pages/
     ├── HomePage.tsx
     ├── ExplorerPage.tsx
+    ├── BuilderPage.tsx
     ├── SystemsPage.tsx
     └── SystemDetailPage.tsx
 
@@ -99,11 +123,13 @@ public/data/                  # CSV data files (sourced from uiux-pro-max-skill)
 ├── products.csv
 ├── ux-guidelines.csv
 ├── charts.csv
+├── landing.csv
+├── ui-reasoning.csv
 └── stacks/                   # 13 stack-specific CSV files
 
 design-system/
 ├── MASTER.md                 # Global design principles
-└── pages/                    # Per-system design token files (8 files)
+└── pages/                    # Per-system design token files (16 files)
 ```
 
 ---
@@ -119,7 +145,8 @@ design-system/
 | `/explorer?tab=charts` | Browse 25 chart types |
 | `/explorer?tab=ux` | Browse 99 UX guidelines |
 | `/explorer?tab=products` | Browse 96 product recommendations |
-| `/systems` | Gallery of 8 system designs |
+| `/builder` | Step-by-step Design Builder wizard |
+| `/systems` | Gallery of 16 system designs |
 | `/systems/:id` | Design tokens panel + navigable page demos |
 
 ---
