@@ -2697,6 +2697,283 @@ export function GenericPages({ design, page }: Props) {
       return <FitnessDashboard design={design} />;
 
     default:
-      return <div className="p-8 text-white/50 text-sm">No demo available for this page.</div>;
+      return <CustomPageRenderer design={design} page={page} />;
   }
+}
+
+/* ─── CUSTOM BUILDER PAGES ─── */
+
+function CustomNav({ design }: { design: SystemDesign }) {
+  const brand = design.name || 'MyApp';
+  return (
+    <nav className="flex items-center justify-between px-6 py-4 border-b" style={{ borderColor: design.colors.border, background: design.colors.background }}>
+      <span className="font-bold text-sm" style={{ color: design.colors.text, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{brand}</span>
+      <div className="flex gap-2">
+        <button className="text-xs px-3 py-1.5 rounded-lg cursor-pointer border" style={{ borderColor: design.colors.border, color: `${design.colors.text}60` }}>Log in</button>
+        <button className="text-xs px-3 py-1.5 rounded-lg cursor-pointer font-semibold" style={{ background: design.colors.cta, color: '#fff' }}>Get started</button>
+      </div>
+    </nav>
+  );
+}
+
+function CustomLanding({ design }: { design: SystemDesign }) {
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <CustomNav design={design} />
+      <div className="px-8 py-14">
+        <div className="max-w-lg">
+          <span className="inline-block px-3 py-1 rounded-full text-xs font-semibold mb-4" style={{ background: `${design.colors.cta}15`, color: design.colors.cta }}>{design.productType}</span>
+          <h1 className="text-4xl font-bold leading-tight mb-4" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>
+            {design.tagline.split(' ').slice(0, 4).join(' ')}<br />
+            <span style={{ color: design.colors.primary }}>{design.tagline.split(' ').slice(4).join(' ') || 'Built for you.'}</span>
+          </h1>
+          <p className="text-sm leading-relaxed mb-8" style={{ color: `${design.colors.text}60` }}>{design.tagline}</p>
+          <div className="flex gap-3 flex-wrap">
+            <button className="px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>Get started free</button>
+            <button className="px-6 py-3 rounded-xl font-semibold text-sm cursor-pointer border" style={{ borderColor: design.colors.border, color: design.colors.text }}>See demo →</button>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-4 mt-12">
+          {[['10K+', 'Users'], ['99.9%', 'Uptime'], ['4.9★', 'Rating']].map(([v, l]) => (
+            <div key={l} className="text-center p-5 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06` }}>
+              <p className="text-2xl font-bold mb-0.5" style={{ color: design.colors.primary, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{v}</p>
+              <p className="text-xs" style={{ color: `${design.colors.text}50` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 grid grid-cols-1 gap-3">
+          {[
+            ['Lightning fast', 'Optimized for performance at any scale.'],
+            ['Secure by default', 'Enterprise-grade security built in.'],
+            ['Easy to integrate', 'Connect your existing tools in minutes.'],
+          ].map(([title, desc]) => (
+            <div key={title as string} className="flex items-start gap-4 p-4 rounded-xl border" style={{ borderColor: design.colors.border }}>
+              <div className="w-8 h-8 rounded-lg flex-shrink-0 flex items-center justify-center" style={{ background: `${design.colors.cta}20` }}>
+                <div className="w-3 h-3 rounded-sm" style={{ background: design.colors.cta }} />
+              </div>
+              <div>
+                <p className="text-sm font-semibold mb-0.5" style={{ color: design.colors.text }}>{title}</p>
+                <p className="text-xs" style={{ color: `${design.colors.text}50` }}>{desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomDashboard({ design }: { design: SystemDesign }) {
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <CustomNav design={design} />
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <p className="font-semibold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Dashboard</p>
+            <p className="text-xs" style={{ color: `${design.colors.text}40` }}>Welcome back — here's your overview</p>
+          </div>
+          <button className="text-xs px-3 py-1.5 rounded-lg font-medium cursor-pointer" style={{ background: design.colors.primary, color: '#fff' }}>+ New</button>
+        </div>
+        <div className="grid grid-cols-2 gap-3 mb-5">
+          {[
+            { label: 'Total Users', val: '12,480', delta: '+8.2%', color: design.colors.primary },
+            { label: 'Revenue', val: '$94.2K', delta: '+12%', color: design.colors.cta },
+            { label: 'Active Today', val: '3,291', delta: '+5.1%', color: design.colors.secondary },
+            { label: 'Conversion', val: '4.8%', delta: '+0.3%', color: '#10B981' },
+          ].map((s) => (
+            <div key={s.label} className="rounded-xl p-4 border" style={{ borderColor: design.colors.border, background: `${s.color}08` }}>
+              <p className="text-xs mb-1" style={{ color: `${design.colors.text}50` }}>{s.label}</p>
+              <p className="text-lg font-bold" style={{ color: s.color, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{s.val}</p>
+              <p className="text-[10px] mt-0.5" style={{ color: '#10B981' }}>{s.delta} this week</p>
+            </div>
+          ))}
+        </div>
+        <div className="rounded-xl border p-4" style={{ borderColor: design.colors.border }}>
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-sm font-semibold" style={{ color: design.colors.text }}>Recent Activity</p>
+            <span className="text-xs" style={{ color: design.colors.primary }}>View all →</span>
+          </div>
+          {[
+            ['New user signup', 'alex@example.com', '2m ago'],
+            ['Payment received', '$299 · Pro plan', '14m ago'],
+            ['Report generated', 'Q1 Analytics', '1h ago'],
+            ['Support ticket', 'API integration issue', '2h ago'],
+          ].map(([event, detail, time]) => (
+            <div key={event as string} className="flex items-center justify-between py-2.5 border-b last:border-0" style={{ borderColor: `${design.colors.border}50` }}>
+              <div>
+                <p className="text-xs font-medium" style={{ color: design.colors.text }}>{event}</p>
+                <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{detail}</p>
+              </div>
+              <span className="text-[10px]" style={{ color: `${design.colors.text}30` }}>{time}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomProfile({ design }: { design: SystemDesign }) {
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <CustomNav design={design} />
+      <div className="p-6">
+        <div className="flex items-center gap-4 mb-6 p-4 rounded-2xl border" style={{ borderColor: design.colors.border, background: `${design.colors.primary}06` }}>
+          <div className="w-14 h-14 rounded-full flex items-center justify-center text-xl font-bold flex-shrink-0" style={{ background: `linear-gradient(135deg, ${design.colors.primary}, ${design.colors.secondary})`, color: '#fff' }}>A</div>
+          <div className="flex-1">
+            <p className="font-bold text-sm" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Alex Johnson</p>
+            <p className="text-xs" style={{ color: `${design.colors.text}50` }}>alex@example.com · Pro member</p>
+          </div>
+          <button className="text-xs px-3 py-1.5 rounded-lg border cursor-pointer" style={{ borderColor: design.colors.border, color: design.colors.text }}>Edit</button>
+        </div>
+        <div className="grid grid-cols-3 gap-3 mb-5">
+          {[['48', 'Projects'], ['128', 'Actions'], ['3.2K', 'Points']].map(([v, l]) => (
+            <div key={l} className="text-center p-3 rounded-xl border" style={{ borderColor: design.colors.border }}>
+              <p className="font-bold text-base" style={{ color: design.colors.primary, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{v}</p>
+              <p className="text-[10px]" style={{ color: `${design.colors.text}40` }}>{l}</p>
+            </div>
+          ))}
+        </div>
+        <div className="rounded-xl border p-4 space-y-3" style={{ borderColor: design.colors.border }}>
+          <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: `${design.colors.text}40` }}>Account Details</p>
+          {[['Full name', 'Alex Johnson'], ['Email', 'alex@example.com'], ['Plan', 'Pro · $29/mo'], ['Member since', 'January 2024']].map(([k, v]) => (
+            <div key={k as string} className="flex items-center justify-between py-2 border-b last:border-0" style={{ borderColor: `${design.colors.border}50` }}>
+              <span className="text-xs" style={{ color: `${design.colors.text}50` }}>{k}</span>
+              <span className="text-xs font-medium" style={{ color: design.colors.text }}>{v}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomDetail({ design }: { design: SystemDesign }) {
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <CustomNav design={design} />
+      <div className="p-6">
+        <button className="text-xs mb-4 flex items-center gap-1 cursor-pointer" style={{ color: `${design.colors.text}50` }}>
+          <svg className="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+          Back to listing
+        </button>
+        <div className="h-36 rounded-2xl mb-5 flex items-center justify-center" style={{ background: `linear-gradient(135deg, ${design.colors.primary}30, ${design.colors.secondary}20)`, border: `1px solid ${design.colors.border}` }}>
+          <p className="text-sm font-medium" style={{ color: `${design.colors.text}40` }}>Media / Preview</p>
+        </div>
+        <div className="flex items-start justify-between gap-3 mb-3">
+          <div>
+            <h2 className="text-xl font-bold" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Premium Item Title</h2>
+            <p className="text-xs mt-0.5" style={{ color: `${design.colors.text}40` }}>{design.productType} · Featured</p>
+          </div>
+          <p className="text-2xl font-bold flex-shrink-0" style={{ color: design.colors.primary, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>$49</p>
+        </div>
+        <p className="text-sm leading-relaxed mb-5" style={{ color: `${design.colors.text}60` }}>A detailed description of this item. Showcase key features, benefits, and what makes it stand out from the rest of the catalog.</p>
+        <div className="flex gap-3 mb-5">
+          <button className="flex-1 py-3 rounded-xl font-semibold text-sm cursor-pointer" style={{ background: design.colors.cta, color: '#fff' }}>Add to cart</button>
+          <button className="px-4 py-3 rounded-xl border cursor-pointer" style={{ borderColor: design.colors.border }}>
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ color: design.colors.text }}><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </button>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          {['Fast delivery', 'Easy returns', 'Secure payment'].map(f => (
+            <div key={f} className="text-center p-2.5 rounded-xl border" style={{ borderColor: design.colors.border }}>
+              <p className="text-[10px] font-medium" style={{ color: `${design.colors.text}60` }}>{f}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomSettings({ design }: { design: SystemDesign }) {
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <CustomNav design={design} />
+      <div className="p-6">
+        <p className="font-bold text-sm mb-4" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Settings</p>
+        {[
+          { section: 'Account', items: [['Display name', 'Alex Johnson', true], ['Email address', 'alex@example.com', true], ['Password', '••••••••', true]] },
+          { section: 'Notifications', items: [['Email updates', 'Receive product news', false], ['Push alerts', 'Real-time notifications', false], ['Weekly digest', 'Summary every Monday', false]] },
+          { section: 'Appearance', items: [['Theme', 'System default', true], ['Language', 'English (US)', true], ['Timezone', 'UTC−5 Eastern', true]] },
+        ].map(({ section, items }) => (
+          <div key={section} className="mb-5">
+            <p className="text-[10px] uppercase tracking-wider mb-2" style={{ color: `${design.colors.text}35` }}>{section}</p>
+            <div className="rounded-xl border overflow-hidden" style={{ borderColor: design.colors.border }}>
+              {(items as [string, string, boolean][]).map(([label, value, isText], idx) => (
+                <div key={label} className={`flex items-center justify-between px-4 py-3 ${idx < items.length - 1 ? 'border-b' : ''}`} style={{ borderColor: `${design.colors.border}50` }}>
+                  <p className="text-xs font-medium" style={{ color: design.colors.text }}>{label}</p>
+                  {isText ? (
+                    <span className="text-xs" style={{ color: `${design.colors.text}50` }}>{value}</span>
+                  ) : (
+                    <div className="w-9 h-5 rounded-full relative cursor-pointer" style={{ background: `${design.colors.primary}40` }}>
+                      <div className="w-4 h-4 rounded-full absolute top-0.5 left-0.5" style={{ background: design.colors.border }} />
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function CustomPricing({ design }: { design: SystemDesign }) {
+  const plans = [
+    { name: 'Starter', price: 'Free', desc: 'For individuals getting started', features: ['5 projects', '1GB storage', 'Community support'], cta: 'Get started', highlighted: false },
+    { name: 'Pro', price: '$29', desc: 'For professionals and small teams', features: ['Unlimited projects', '50GB storage', 'Priority support', 'Analytics'], cta: 'Start free trial', highlighted: true },
+    { name: 'Enterprise', price: 'Custom', desc: 'For large teams and organizations', features: ['Everything in Pro', 'SSO & SAML', 'Dedicated support', 'SLA'], cta: 'Contact sales', highlighted: false },
+  ];
+  return (
+    <div style={{ background: design.colors.background, color: design.colors.text, fontFamily: `'${design.typography.bodyFont}', sans-serif` }}>
+      <CustomNav design={design} />
+      <div className="px-6 py-10">
+        <div className="text-center mb-8">
+          <h2 className="text-2xl font-bold mb-2" style={{ fontFamily: `'${design.typography.headingFont}', sans-serif`, color: design.colors.text }}>Simple, transparent pricing</h2>
+          <p className="text-sm" style={{ color: `${design.colors.text}50` }}>No hidden fees. Cancel anytime.</p>
+        </div>
+        <div className="grid grid-cols-1 gap-4">
+          {plans.map(plan => (
+            <div key={plan.name} className="rounded-2xl border p-5" style={{
+              borderColor: plan.highlighted ? design.colors.primary : design.colors.border,
+              background: plan.highlighted ? `${design.colors.primary}08` : 'transparent',
+            }}>
+              <div className="flex items-start justify-between mb-3">
+                <div>
+                  <p className="font-bold text-sm" style={{ color: design.colors.text }}>{plan.name}</p>
+                  <p className="text-[10px] mt-0.5" style={{ color: `${design.colors.text}40` }}>{plan.desc}</p>
+                </div>
+                <p className="text-xl font-bold" style={{ color: plan.highlighted ? design.colors.primary : design.colors.text, fontFamily: `'${design.typography.headingFont}', sans-serif` }}>{plan.price}<span className="text-xs font-normal" style={{ color: `${design.colors.text}40` }}>{plan.price !== 'Free' && plan.price !== 'Custom' ? '/mo' : ''}</span></p>
+              </div>
+              <ul className="space-y-1.5 mb-4">
+                {plan.features.map(f => (
+                  <li key={f} className="flex items-center gap-2 text-xs" style={{ color: `${design.colors.text}70` }}>
+                    <svg className="w-3 h-3 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" style={{ color: design.colors.cta }}><polyline points="20 6 9 17 4 12"/></svg>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+              <button className="w-full py-2.5 rounded-xl text-xs font-semibold cursor-pointer" style={{
+                background: plan.highlighted ? design.colors.primary : 'transparent',
+                color: plan.highlighted ? '#fff' : design.colors.text,
+                border: plan.highlighted ? 'none' : `1px solid ${design.colors.border}`,
+              }}>{plan.cta}</button>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CustomPageRenderer({ design, page }: { design: SystemDesign; page: string }) {
+  if (page === 'dashboard') return <CustomDashboard design={design} />;
+  if (page === 'profile') return <CustomProfile design={design} />;
+  if (page === 'detail') return <CustomDetail design={design} />;
+  if (page === 'settings') return <CustomSettings design={design} />;
+  if (page === 'pricing') return <CustomPricing design={design} />;
+  return <CustomLanding design={design} />;
 }
